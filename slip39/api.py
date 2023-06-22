@@ -1213,7 +1213,7 @@ def create(
     passphrase: Optional[Union[bytes,str]] = None,
     using_bip39: Optional[bool]	= None,  # Produce wallet Seed from master_secret Entropy using BIP-39 generation
     iteration_exponent: int	= 1,
-    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: ETH, BTC at default path, format
+    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: BTC, ETH at default path, format
     strength: Optional[int]	= None,			# Default: 128
     extendable: Optional[bool]	= None,			# Default: True
     identifier: Optional[int]	= None,			# Default: random identifier
@@ -1529,7 +1529,7 @@ def accounts(
 
 def accountgroups(
     master_secret: Union[str,bytes],
-    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: ETH, BTC at default path, format
+    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: BTC, ETH at default path, format
     allow_unbounded: bool	= True,
     passphrase: Optional[Union[bytes,str]] = None,      # If mnemonic(s) provided, then passphrase/using_bip39 optional
     using_bip39: bool		= False,
@@ -1624,7 +1624,7 @@ def addresses(
 
 def addressgroups(
     master_secret: Union[str,bytes],
-    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: ETH, BTC at default path, format
+    cryptopaths: Optional[Sequence[Union[str,Tuple[str,str],Tuple[str,str,str]]]] = None,  # default: BTC, ETH at default path, format
     allow_unbounded: bool	= True,
     passphrase: Optional[Union[bytes,str]] = None,  # If mnemonic(s) provided, then passphrase/using_bip39 optional
     using_bip39: bool		= False,

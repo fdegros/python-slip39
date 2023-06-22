@@ -268,7 +268,7 @@ def test_account_from_mnemonic():
     # And the account addresses documented in the create's details are the SLIP-39 encodings (Seed
     # uses raw entropy)
     assert len(details_ones_native_slip39.accounts) == 1
-    [(eth,btc)] = details_ones_native_slip39.accounts  # The default accounts created are ETH, BTC
+    [(btc,eth)] = details_ones_native_slip39.accounts  # The default accounts created are BTC, ETH
     assert btc.address == 'bc1q9yscq3l2yfxlvnlk3cszpqefparrv7tk24u6pl'
 
     # But, we recover the raw entropy (as always from SLIP-39), except if using_bip39 is specified
@@ -289,7 +289,7 @@ def test_account_from_mnemonic():
     )
     # And the account addresses documented are those from the BIP-39 derived Seed
     assert len(details_ones_using_bip39.accounts) == 1
-    [(eth,btc)] = details_ones_using_bip39.accounts  # The default accounts created are ETH, BTC
+    [(btc,eth)] = details_ones_using_bip39.accounts  # The default accounts created are BTC, ETH
     assert btc.address == 'bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2'
     # But, we recover the raw entropy (as always from SLIP-39), except if using_bip39 is specified
     assert recover( details_ones_using_bip39.groups['fren'][1][:3] ) == SEED_ONES
@@ -314,7 +314,7 @@ def test_account_from_mnemonic():
         "SLIP39 Wallet: From zoo ... BIP-39",
         master_secret	= BIP39_ZOO,
     )
-    [(eth_zoo,btc_zoo)]	= details_zoos_using_bip39.accounts
+    [(btc_zoo,eth_zoo)]	= details_zoos_using_bip39.accounts
     btc_zoo.address == 'bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2'
 
 
@@ -435,7 +435,7 @@ def test_create():
     }
 
     assert len(details_xmas.accounts) == 1
-    [(eth,btc)] = details_xmas.accounts  # The default accounts created are ETH, BTC
+    [(btc,eth)] = details_xmas.accounts  # The default accounts created are BTC, ETH
     assert eth.address == '0x336cBeAB83aCCdb2541e43D514B62DC6C53675f4'
     assert btc.address == 'bc1qz6kp20ukkyx8c5t4nwac6g8hsdc5tdkxhektrt'
 

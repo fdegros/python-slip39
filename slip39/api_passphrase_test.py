@@ -93,7 +93,7 @@ def test_passphrase():
         )
     }
 
-    [(eth,btc)] 		= details_nonpass.accounts
+    [(btc,eth)] 		= details_nonpass.accounts
     assert eth.path == "m/44'/60'/0'/0/0"
     assert eth.address == '0x824b174803e688dE39aF5B3D7Cd39bE6515A19a1'
     assert btc.path == "m/84'/0'/0'/0/0"
@@ -193,7 +193,7 @@ def test_passphrase():
     # And finally, confirm that the SLIP39 Mnemonics protected by the correct passphrase also yield
     # the expected ETH and BTC wallets.  This is obviously the expected behaviour, because the
     # SLIP39 passphrase simply encrypts/decrypts the original seed.
-    [(eth,btc)] 		= details_badpass.accounts
+    [(btc,eth)] 		= details_badpass.accounts
     assert eth.path == "m/44'/60'/0'/0/0"
     assert eth.address == '0x824b174803e688dE39aF5B3D7Cd39bE6515A19a1'
     assert btc.path == "m/84'/0'/0'/0/0"

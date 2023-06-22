@@ -179,7 +179,7 @@ def test_recover_bip39_non_extendable():
     }
     assert recover( details_bip39.groups['one'][1][:] + details_bip39.groups['fren'][1][:3] ) == bip39seed
 
-    [(eth,btc)] = details_bip39.accounts
+    [(btc,eth)] = details_bip39.accounts
     assert eth.address == "0xfc2077CA7F403cBECA41B1B0F62D91B5EA631B5E"
     assert btc.address == "bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2"
 
@@ -197,7 +197,7 @@ def test_recover_bip39_non_extendable():
     )
     assert recover( details_bip39entropy.groups['one'][1][:] + details_bip39entropy.groups['fren'][1][:3] ) == bip39entropy
 
-    [(eth,btc)] = details_bip39entropy.accounts
+    [(btc,eth)] = details_bip39entropy.accounts
     assert eth.address == "0xfc2077CA7F403cBECA41B1B0F62D91B5EA631B5E"
     assert btc.address == "bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2"
 
@@ -244,7 +244,7 @@ def test_recover_bip39_non_extendable():
     }
 
     # These are the well-known SLIP-39 0xffff...ffff Seed accounts
-    [(eth,btc)] = details_slip39.accounts
+    [(btc,eth)] = details_slip39.accounts
     assert eth.address == "0x824b174803e688dE39aF5B3D7Cd39bE6515A19a1"
     assert btc.address == "bc1q9yscq3l2yfxlvnlk3cszpqefparrv7tk24u6pl"
 
@@ -743,7 +743,7 @@ def test_create_recover_bip39_extendable():
     }
     assert recover( details_bip39.groups['one'][1][:] + details_bip39.groups['fren'][1][:3] ) == bip39seed
 
-    [(eth,btc)] = details_bip39.accounts
+    [(btc,eth)] = details_bip39.accounts
     assert eth.address == "0xfc2077CA7F403cBECA41B1B0F62D91B5EA631B5E"
     assert btc.address == "bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2"
 
@@ -760,7 +760,7 @@ def test_create_recover_bip39_extendable():
     )
     assert recover( details_bip39entropy.groups['one'][1][:] + details_bip39entropy.groups['fren'][1][:3] ) == bip39entropy
 
-    [(eth,btc)] = details_bip39entropy.accounts
+    [(btc,eth)] = details_bip39entropy.accounts
     assert eth.address == "0xfc2077CA7F403cBECA41B1B0F62D91B5EA631B5E"
     assert btc.address == "bc1qk0a9hr7wjfxeenz9nwenw9flhq0tmsf6vsgnn2"
 
@@ -807,7 +807,7 @@ def test_create_recover_bip39_extendable():
     }
 
     # These are the well-known SLIP-39 0xffff...ffff Seed accounts
-    [(eth,btc)] = details_slip39_ones.accounts
+    [(btc,eth)] = details_slip39_ones.accounts
     assert eth.address == "0x824b174803e688dE39aF5B3D7Cd39bE6515A19a1"
     assert btc.address == "bc1q9yscq3l2yfxlvnlk3cszpqefparrv7tk24u6pl"
 
@@ -963,13 +963,13 @@ def test_create_recover_bip39_extendable():
     # Let's ensure each set of SLIP-39 Mnemonics works independently
     assert recover( details_slip39_ones_ext.groups['more'][1][:5] + details_slip39_ones_ext.groups['silly'][1][:7] ) == SEED_ONES
     assert recover( details_slip39_ones_ext.groups['more'][1][3:3+5] + details_slip39_ones_ext.groups['silly'][1][2:2+7] ) == SEED_ONES
-    [(eth,btc)] = details_slip39_ones_ext.accounts
+    [(btc,eth)] = details_slip39_ones_ext.accounts
     assert eth.address == "0x824b174803e688dE39aF5B3D7Cd39bE6515A19a1"
     assert btc.address == "bc1q9yscq3l2yfxlvnlk3cszpqefparrv7tk24u6pl"
 
     assert recover( details_slip39_zero_ext.groups['more'][1][:5] + details_slip39_zero_ext.groups['silly'][1][:7] ) == SEED_ZERO
     assert recover( details_slip39_zero_ext.groups['more'][1][3:3+5] + details_slip39_zero_ext.groups['silly'][1][2:2+7] ) == SEED_ZERO
-    [(eth,btc)] = details_slip39_zero_ext.accounts
+    [(btc,eth)] = details_slip39_zero_ext.accounts
     assert eth.address == "0xb0e4d189aD9b1a19A4c917be5C8985214ff9ee16"
     assert btc.address == "bc1qsqs4ja3sm84vhtc7k3palld0nwga7tf47azjsq"
 
