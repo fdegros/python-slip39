@@ -128,7 +128,7 @@ FILENAME_KEYWORDS		= ['name', 'date', 'time', 'crypto', 'path', 'address']
 FILENAME_FORMAT			= "{name}-{date}+{time}-{crypto}-{address}.pdf"
 
 # Default Crypto accounts (and optional paths) to generate
-CRYPTO_PATHS			= ('ETH', 'BTC')
+CRYPTO_PATHS			= ('BTC', 'ETH')
 
 __d				= "55"
 __m				= "88"
