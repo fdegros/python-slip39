@@ -60,7 +60,7 @@ def main( argv=None ):
                      default=None,
                      help="Number of groups required for recovery (default: half of groups, rounded up)" )
     ap.add_argument( '-g', '--group', action='append',
-                     help="A group name[[<require>/]<size>] (default: <size> = 1, <require> = half of <size>, rounded up, eg. 'Frens(3/5)' )." )
+                     help="A group name[[<require>/]<size>] (default: <size> = 1, <require> = half of <size>, rounded up, eg. 'Friends(3/5)' )." )
     ap.add_argument( '-f', '--format', action='append',
                      default=[],
                      help=f"Specify crypto address formats: {', '.join( Account.FORMATS )}; default: " + ', '.join(

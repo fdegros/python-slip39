@@ -413,7 +413,7 @@ def write_pdfs(
     master_secret	= None,		# Derive SLIP-39 details from this seed (if not supplied in names)
     passphrase		= None,		# UTF-8 encoded passphrase; default is '' (empty)
     using_bip39		= False,        # Generate Seed from Entropy via BIP-39 generation algorithm
-    group		= None,		# Group specifications, [ "Frens(3/6)", ... ]
+    group		= None,		# Group specifications, [ "Friends(3/6)", ... ]
     group_threshold	= None,		# int, or 1/2 of groups by default
     cryptocurrency	= None,		# sequence of [ 'ETH:<path>', ... ] to produce accounts for
     edit		= None,		# Adjust crypto paths according to the provided path edit

@@ -1535,7 +1535,7 @@ recoverable SLIP-39 Mnemonic encoding.
                      default=None,
                      help="Number of groups required for recovery (default: half of groups, rounded up)" )
     ap.add_argument( '-g', '--group', action='append',
-                     help="A group name[[<require>/]<size>] (default: <size> = 1, <require> = half of <size>, rounded up, eg. 'Frens(3/5)' )." )
+                     help="A group name[[<require>/]<size>] (default: <size> = 1, <require> = half of <size>, rounded up, eg. 'Friends(3/5)' )." )
     ap.add_argument( '-c', '--cryptocurrency', action='append',
                      default=[],
                      help="A crypto name and optional derivation path ('../<range>/<range>' allowed); defaults:" + ', '.join(

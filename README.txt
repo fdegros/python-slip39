@@ -237,7 +237,7 @@ Table of Contents
   reality – each group's data /alone/ gives away /no information/ about
   the seed).
 
-  For example, you might have First, Second, Fam and Frens groups, and
+  For example, you might have First, Second, Family and Friends groups, and
   decide that any 2 groups can be combined to recover the seed.  Each
   group has members with varying levels of trust and persistence, so
   have different number of Members, and differing numbers Required to
@@ -248,8 +248,8 @@ Table of Contents
   ─────────────────────────────────────────────────────────────────────
    First          1  /  1        Stored at home                        
    Second         1  /  1        Stored in office safe                 
-   Fam            2  /  4        Distributed to family members         
-   Frens          3  /  6        Distributed to friends and associates 
+   Family         2  /  4        Distributed to family members         
+   Friends        3  /  6        Distributed to friends and associates 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   The account owner might store their First and Second group data in
   their home and office safes.  These are 1/1 groups (1 required, and
@@ -259,19 +259,19 @@ Table of Contents
   cards from the home and office safe is sufficient to recover the Seed,
   and re-generate all of the HD Wallet accounts.
 
-  Only 2 Fam group member's cards must be collected to recover the Fam
+  Only 2 Family group member's cards must be collected to recover the Family
   group's data.  So, if the HD Wallet owner loses their home (and the
   one and only First group card) in a fire, they could get the one
-  Second group card from the office safe, and also 2 cards from Fam
+  Second group card from the office safe, and also 2 cards from Family
   group members, and recover the Seed and all of their wallets.
 
   If catastrophe strikes and the wallet owner dies, and the heirs don't
   have access to either the First (at home) or Second (at the office)
-  cards, they can collect 2 Fam cards and 3 Frens cards (at the funeral,
-  for example), completing the Fam and Frens groups' data, and recover
+  cards, they can collect 2 Family cards and 3 Friends cards (at the funeral,
+  for example), completing the Family and Friends groups' data, and recover
   the Seed, and all derived HD Wallet accounts.
 
-  Since Frens are less likely to persist long term, we'll produce more
+  Since Friends are less likely to persist long term, we'll produce more
   (6) of these cards.  Depending on how trustworthy the group is, adjust
   the Fren group's Required number higher (less trustworthy, more likely
   to know each-other, need to collect more to recover the group), or
@@ -555,7 +555,7 @@ Table of Contents
   │   -g GROUP, --group GROUP
   │                         A group name[[<require>/]<size>] (default: <size> = 1,
   │                         <require> = half of <size>, rounded up, eg.
-  │                         'Frens(3/5)' ).
+  │                         'Friends(3/5)' ).
   │   -f FORMAT, --format FORMAT
   │                         Specify crypto address formats: legacy, segwit,
   │                         bech32; default: BNB:legacy, BTC:bech32, DOGE:legacy,
@@ -1194,7 +1194,7 @@ Table of Contents
   │ master_secret       = 'zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong' 
   │ passphrase          = b""
   │ create_details      = slip39.create(
-  │     "Test", 2, { "Mine": (1,1), "Fam": (2,3) },
+  │     "Test", 2, { "Mine": (1,1), "Family": (2,3) },
   │     master_secret=master_secret, passphrase=passphrase, cryptopaths=cryptopaths,
   │     extendable=False, identifier=0,
   │ )
@@ -1215,38 +1215,38 @@ Table of Contents
   │ ]
   └────
 
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Card           Mnemonics 1  Mnemonics 2  Mnemonics 3 
-  ──────────────────────────────────────────────────────
-   Mine(1/1) #1:  1 academic   8 safari     15 standard 
-                  2 acid       9 drug       16 angry    
-                  3 acrobat    10 browser   17 similar  
-                  4 easy       11 trash     18 aspect   
-                  5 change     12 fridge    19 smug     
-                  6 injury     13 busy      20 violence 
-                  7 painting   14 finger                
-   Fam(2/3) #1:   1 academic   8 prevent    15 dwarf    
-                  2 acid       9 mouse      16 dream    
-                  3 beard      10 daughter  17 flavor   
-                  4 echo       11 ancient   18 oral     
-                  5 crystal    12 fortune   19 chest    
-                  6 machine    13 ruin      20 marathon 
-                  7 bolt       14 warmth                
-   Fam(2/3) #2:   1 academic   8 prune      15 briefing 
-                  2 acid       9 pickup     16 often    
-                  3 beard      10 device    17 escape   
-                  4 email      11 device    18 sprinkle 
-                  5 dive       12 peanut    19 segment  
-                  6 warn       13 enemy     20 devote   
-                  7 ranked     14 graduate              
-   Fam(2/3) #3:   1 academic   8 dining     15 intimate 
-                  2 acid       9 invasion   16 satoshi  
-                  3 beard      10 bumpy     17 hobo     
-                  4 entrance   11 identify  18 ounce    
-                  5 alarm      12 anxiety   19 both     
-                  6 health     13 august    20 award    
-                  7 discuss    14 sunlight              
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Card            Mnemonics 1  Mnemonics 2  Mnemonics 3 
+  ───────────────────────────────────────────────────────
+   Mine(1/1) #1:   1 academic   8 safari     15 standard 
+                   2 acid       9 drug       16 angry    
+                   3 acrobat    10 browser   17 similar  
+                   4 easy       11 trash     18 aspect   
+                   5 change     12 fridge    19 smug     
+                   6 injury     13 busy      20 violence 
+                   7 painting   14 finger                
+   Family(2/3) #1: 1 academic   8 prevent    15 dwarf    
+                   2 acid       9 mouse      16 dream    
+                   3 beard      10 daughter  17 flavor   
+                   4 echo       11 ancient   18 oral     
+                   5 crystal    12 fortune   19 chest    
+                   6 machine    13 ruin      20 marathon 
+                   7 bolt       14 warmth                
+   Family(2/3) #2: 1 academic   8 prune      15 briefing 
+                   2 acid       9 pickup     16 often    
+                   3 beard      10 device    17 escape   
+                   4 email      11 device    18 sprinkle 
+                   5 dive       12 peanut    19 segment  
+                   6 warn       13 enemy     20 devote   
+                   7 ranked     14 graduate              
+   Family(2/3) #3: 1 academic   8 dining     15 intimate 
+                   2 acid       9 invasion   16 satoshi  
+                   3 beard      10 bumpy     17 hobo     
+                   4 entrance   11 identify  18 ounce    
+                   5 alarm      12 anxiety   19 both     
+                   6 health     13 august    20 award    
+                   7 discuss    14 sunlight              
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   Add the resultant HD Wallet addresses:
 
@@ -1607,7 +1607,7 @@ Table of Contents
 
   ┌────
   │ name,thrs,grps,acct,ub39 = slip39.create(
-  │     "Test", 2, { "Mine": (1,1), "Fam": (2,3) }, entropy )
+  │     "Test", 2, { "Mine": (1,1), "Family": (2,3) }, entropy )
   │ [
   │     [ f"{g_name}({g_of}/{len(g_mnems)}) #{g_n+1}:" if l_n == 0 else "" ] + words
   │     for g_name,(g_of,g_mnems) in grps.items()
@@ -1617,36 +1617,36 @@ Table of Contents
   │ ]
   └────
 
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Mine(1/1) #1:  1 academic  8 umbrella   15 moment   
-                  2 agency    9 darkness   16 segment  
-                  3 acrobat   10 salt      17 privacy  
-                  4 easy      11 bishop    18 loan     
-                  5 course    12 impact    19 tricycle 
-                  6 prune     13 vanish    20 sister   
-                  7 deadline  14 squeeze               
-   Fam(2/3) #1:   1 academic  8 bumpy      15 greatest 
-                  2 agency    9 undergo    16 luxury   
-                  3 beard     10 easel     17 grill    
-                  4 echo      11 smug      18 task     
-                  5 drift     12 oral      19 plastic  
-                  6 campus    13 briefing  20 auction  
-                  7 group     14 luck                  
-   Fam(2/3) #2:   1 academic  8 saver      15 fridge   
-                  2 agency    9 flip       16 fatal    
-                  3 beard     10 fluff     17 scramble 
-                  4 email     11 cleanup   18 alto     
-                  5 cover     12 prevent   19 inmate   
-                  6 become    13 cubic     20 invasion 
-                  7 width     14 multiple              
-   Fam(2/3) #3:   1 academic  8 resident   15 jacket   
-                  2 agency    9 activity   16 database 
-                  3 beard     10 verify    17 picture  
-                  4 entrance  11 fawn      18 elegant  
-                  5 both      12 yoga      19 device   
-                  6 airport   13 devote    20 webcam   
-                  7 decent    14 perfect               
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Mine(1/1) #1:   1 academic  8 umbrella   15 moment   
+                   2 agency    9 darkness   16 segment  
+                   3 acrobat   10 salt      17 privacy  
+                   4 easy      11 bishop    18 loan     
+                   5 course    12 impact    19 tricycle 
+                   6 prune     13 vanish    20 sister   
+                   7 deadline  14 squeeze               
+   Family(2/3) #1: 1 academic  8 bumpy      15 greatest 
+                   2 agency    9 undergo    16 luxury   
+                   3 beard     10 easel     17 grill    
+                   4 echo      11 smug      18 task     
+                   5 drift     12 oral      19 plastic  
+                   6 campus    13 briefing  20 auction  
+                   7 group     14 luck                  
+   Family(2/3) #2: 1 academic  8 saver      15 fridge   
+                   2 agency    9 flip       16 fatal    
+                   3 beard     10 fluff     17 scramble 
+                   4 email     11 cleanup   18 alto     
+                   5 cover     12 prevent   19 inmate   
+                   6 become    13 cubic     20 invasion 
+                   7 width     14 multiple              
+   Family(2/3) #3: 1 academic  8 resident   15 jacket   
+                   2 agency    9 activity   16 database 
+                   3 beard     10 verify    17 picture  
+                   4 entrance  11 fawn      18 elegant  
+                   5 both      12 yoga      19 device   
+                   6 airport   13 devote    20 webcam   
+                   7 decent    14 perfect               
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Since there is some randomness used in the SLIP-39 mnemonics
   generation process, we would get a *different* set of words each time
   for the fixed "entropy" `0xFFFF..FF' used in this example (if we
@@ -1683,7 +1683,7 @@ Table of Contents
   Lets prove that we can actually recover the *original* Seed Entropy
   from the SLIP-39 recovery Mnemonics; in this case, we've specified a
   SLIP-39 group_threshold of 2 groups, so we'll use 1 Mnemonic from
-  Mine, and 2 from the Fam group:
+  Mine, and 2 from the Family group:
 
   ┌────
   │ _,mnem_mine         = grps['Mine']

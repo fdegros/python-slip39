@@ -2,12 +2,12 @@ Name each Group according to "who" or "where" you plan to distribute it.
 
 The default Group names and their intended usages are:
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- First   A 1-card group stored in the First safe place 
- Second  A 1-card group stored in the First safe place 
- Fam     A smaller group of Family members             
- Fren    A larger group of Friends; increase Needed    
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ First    A single card stored in a first safe place
+ Second   A single card stored in a second safe place
+ Family   A smaller group of family members
+ Friends  A larger group of friends
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 1 1-Card Groups

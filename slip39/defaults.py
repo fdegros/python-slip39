@@ -31,14 +31,14 @@ __license__                     = "Dual License: GPLv3 (or later) and Commercial
 # Use https://iancoleman.io/bip39/ to confirm the derivations
 #
 
-# Default group_threshold / required ratios and groups (with varying styles of definition)
+# Default group_threshold / required ratios and groups
 GROUP_REQUIRED_RATIO		= 1/2   # default to 1/2 of group members, rounded up
 GROUP_THRESHOLD_RATIO		= 1/2   # default to 1/2 of groups, rounded up
 GROUPS				= [
-    "First1",
-    "Second(1/1)",
-    "Fam(4)",
-    "Frens3/6"
+    "First(1)",
+    "Second(1)",
+    "Family(2/4)",
+    "Friends(3/6)"
 ]
 
 THEME				= 'DarkAmber'   # PySimpleGUI Theme

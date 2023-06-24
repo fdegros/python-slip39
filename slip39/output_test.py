@@ -109,8 +109,8 @@ def test_cards( tmp_path, rendered_cards ):
     assert fronts
     assert { t['card-title'] for t in cards } == {
         "SLIP39 First for Alice", "SLIP39 Second for Alice",
-        "SLIP39 Fam 1 for Alice", "SLIP39 Fam 2 for Alice", "SLIP39 Fam 3 for Alice", "SLIP39 Fam 4 for Alice",
-        *( f"SLIP39 Frens {n} for Alice" for n in range( 1, 7 )),
+        "SLIP39 Family 1 for Alice", "SLIP39 Family 2 for Alice", "SLIP39 Family 3 for Alice", "SLIP39 Family 4 for Alice",
+        *( f"SLIP39 Friends {n} for Alice" for n in range( 1, 7 )),
     }
     for t in fronts:
         assert "Recover w/ 2 of 4" in t['card-requires']
@@ -123,7 +123,7 @@ def test_anonymous_cards( tmp_path, rendered_cards ):
     write_cards( tmp_path, anonymous=True )
     cards			= [ t for t in rendered_cards if 'card-title' in t ]
     assert cards
-    assert { t['card-title'] for t in cards } == { "First", "Second", "Fam", "Frens" }
+    assert { t['card-title'] for t in cards } == { "First", "Second", "Family", "Friends" }
     for t in cards:
         assert not any( k.startswith(( 'card-g', 'card-requires', 'card-crypto', 'card-qr1', 'card-qr2' )) for k in t ), \
             f"Anonymous card shows: {sorted( t )}"
