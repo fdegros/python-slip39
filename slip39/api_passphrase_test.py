@@ -71,7 +71,7 @@ def test_passphrase():
                 "academic acid beard romp believe impulse species holiday demand building earth warn lunar olympic clothes piece campus alpha short endless"
             ]
         ),
-        "Fam": (
+        "Family": (
             2,
             [
                 "academic acid ceramic roster desire unwrap depend silent mountain agency fused primary clinic alpha database liberty silver advance replace medical",
@@ -80,7 +80,7 @@ def test_passphrase():
                 "academic acid ceramic sister actress mortgage random talent device clogs craft volume cargo item scramble easy grumpy wildlife wrist simple"
             ]
         ),
-        "Frens": (
+        "Friends": (
             3,
             [
                 "academic acid decision round academic academic academic academic academic academic academic academic academic academic academic academic academic ranked flame amount",
@@ -101,7 +101,7 @@ def test_passphrase():
 
     # Ensure we can recover it w/ no passphrase
     assert recover(
-        details_nonpass.groups['Fam'][1][:2] + details_nonpass.groups['Frens'][1][:-3],
+        details_nonpass.groups['Family'][1][:2] + details_nonpass.groups['Friends'][1][:-3],
     ) == SEED_FF
 
     # Now, ensure that we see a different set of Mnemonics w/ a SLIP39 passphrase.
@@ -116,7 +116,7 @@ def test_passphrase():
     badpass			= "password".encode( 'UTF-8' )
 
     assert recover(
-        details_nonpass.groups['Fam'][1][:2] + details_nonpass.groups['Frens'][1][:-3],
+        details_nonpass.groups['Family'][1][:2] + details_nonpass.groups['Friends'][1][:-3],
         passphrase	= badpass,
     ) != SEED_FF
 
@@ -142,7 +142,7 @@ def test_passphrase():
                 "academic acid beard romp dismiss mayor juice glance twice response eclipse inmate muscle climate born increase reject typical slow evil"
             ]
         ),
-        "Fam": (
+        "Family": (
             2,
             [
                 "academic acid ceramic roster answer charity ceiling mason kernel jerky woman laundry duckling dining dress grumpy lily fortune cleanup black",
@@ -151,7 +151,7 @@ def test_passphrase():
                 "academic acid ceramic sister benefit marathon database ordinary hawk equation fawn thorn soldier taste welcome mild blimp insect born pistol"
             ]
         ),
-        "Frens": (
+        "Friends": (
             3,
             [
                 "academic acid decision round academic academic academic academic academic academic academic academic academic academic academic academic academic ranked flame amount",
@@ -170,10 +170,10 @@ def test_passphrase():
     # design -- you can supply an attacker with a "duress" seed passphrase leading to wallet(s) with
     # a small sacrificial amount of funds.
     assert recover(
-        details_badpass.groups['Fam'][1][:2] + details_badpass.groups['Frens'][1][:3],
+        details_badpass.groups['Family'][1][:2] + details_badpass.groups['Friends'][1][:3],
     ) != SEED_FF
     assert recover(
-        details_badpass.groups['Fam'][1][:2] + details_badpass.groups['Frens'][1][:3],
+        details_badpass.groups['Family'][1][:2] + details_badpass.groups['Friends'][1][:3],
         passphrase	= badpass,
     ) == SEED_FF
 
@@ -182,11 +182,11 @@ def test_passphrase():
     # was the default, before SLIP-39 added the concept of "extendable".
     with pytest.raises( shamir_mnemonic.utils.MnemonicError ):
         assert recover(
-            details_nonpass.groups['Fam'][1][:2] + details_badpass.groups['Frens'][1][:3],
+            details_nonpass.groups['Family'][1][:2] + details_badpass.groups['Friends'][1][:3],
         ) != SEED_FF
     with pytest.raises( shamir_mnemonic.utils.MnemonicError ):
         assert recover(
-            details_nonpass.groups['Fam'][1][:2] + details_badpass.groups['Frens'][1][:3],
+            details_nonpass.groups['Family'][1][:2] + details_badpass.groups['Friends'][1][:3],
             passphrase	= badpass,
         ) != SEED_FF
 

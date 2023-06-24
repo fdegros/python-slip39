@@ -183,19 +183,19 @@ python3 -m slip39.recovery --using-bip39 \
    collected, to recover the seed; this seed is (conceptually) split between 1 or more groups
    (though not in reality -- each group's data /alone/ gives away /no information/ about the seed).
 
-   For example, you might have First, Second, Fam and Frens groups, and decide that any 2 groups can
+   For example, you might have First, Second, Family and Friends groups, and decide that any 2 groups can
    be combined to recover the seed.  Each group has members with varying levels of trust and
    persistence, so have different number of Members, and differing numbers Required to recover that
    group's data:
 
    #+LATEX: {\scriptsize
-   | Group  | Required |   | Members | Description                           |
-   |--------+----------+---+---------+---------------------------------------|
-   |        |      <r> |   | <l>     |                                       |
-   | First  |        1 | / | 1       | Stored at home                        |
-   | Second |        1 | / | 1       | Stored in office safe                 |
-   | Fam    |        2 | / | 4       | Distributed to family members         |
-   | Frens  |        3 | / | 6       | Distributed to friends and associates |
+   | Group   | Required |   | Members | Description                           |
+   |---------+----------+---+---------+---------------------------------------|
+   |         |      <r> |   | <l>     |                                       |
+   | First   |        1 | / | 1       | Stored at home                        |
+   | Second  |        1 | / | 1       | Stored in office safe                 |
+   | Family  |        2 | / | 4       | Distributed to family members         |
+   | Friends |        3 | / | 6       | Distributed to friends and associates |
    #+LATEX: }
 
    The account owner might store their First and Second group data in their home and office safes.
@@ -204,18 +204,18 @@ python3 -m slip39.recovery --using-bip39 \
    If the Seed needs to be recovered, collecting the First and Second cards from the home and
    office safe is sufficient to recover the Seed, and re-generate all of the HD Wallet accounts.
 
-   Only 2 Fam group member's cards must be collected to recover the Fam group's data.  So, if the HD
+   Only 2 Family group member's cards must be collected to recover the Family group's data.  So, if the HD
    Wallet owner loses their home (and the one and only First group card) in a fire, they could get
-   the one Second group card from the office safe, and also 2 cards from Fam group members, and
+   the one Second group card from the office safe, and also 2 cards from Family group members, and
    recover the Seed and all of their wallets.
 
    If catastrophe strikes and the wallet owner dies, and the heirs don't have access to either the
-   First (at home) or Second (at the office) cards, they can collect 2 Fam cards and 3 Frens cards
-   (at the funeral, for example), completing the Fam and Frens groups' data, and recover the Seed,
+   First (at home) or Second (at the office) cards, they can collect 2 Family cards and 3 Friends cards
+   (at the funeral, for example), completing the Family and Friends groups' data, and recover the Seed,
    and all derived HD Wallet accounts.
 
-   Since Frens are less likely to persist long term, we'll produce more (6) of these cards.
-   Depending on how trustworthy the group is, adjust the Fren group's Required number higher (less
+   Since Friends are less likely to persist long term, we'll produce more (6) of these cards.
+   Depending on how trustworthy the group is, adjust the Friends group's Required number higher (less
    trustworthy, more likely to know each-other, need to collect more to recover the group), or lower
    (more trustworthy, less likely to collude, need less to recover).
 
