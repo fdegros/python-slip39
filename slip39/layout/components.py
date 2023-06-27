@@ -373,13 +373,10 @@ def layout_wallet(
 
     # Wallet name, amount
     public.add_region_proportional(
-        Text( 'name-label',	x1=1/16, y1=0/16, x2=4/16, y2=1/16 )
+        Image( 'name-bg',	x1=1/16, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
     )
     public.add_region_proportional(
-        Image( 'name-bg',	x1=4/16, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
-    )
-    public.add_region_proportional(
-        Text( 'name',		x1=4/16, y1=0/16, x2=15/16, y2=1/16 )
+        Text( 'name',		x1=1/16, y1=0/16, x2=15/16, y2=1/16 )
     )
 
     public.add_region_proportional(
@@ -428,20 +425,6 @@ def layout_wallet(
     private.add_region_proportional(
         Text( 'private-qr-b',	x1=0/16, y1=15/16, x2=1, y2=16/16 )
     )
-
-    # Hint above; but same computed width as private_qr
-    private_h_t			= private.add_region_proportional(
-        Text( 'private-hint-t',	x1=0/16, y1=0/16, x2=1, y2=1/16 )
-    )
-    private_h_t.x2		= private_qr.x2
-    private_h_bg		= private.add_region_proportional(
-        Image( 'private-hint-bg',x1=0/16, y1=1/16, x2=1, y2=4/16, priority=prio_contrast )
-    )
-    private_h_bg.x2		= private_qr.x2
-    private_h			= private.add_region_proportional(
-        Text( 'private-hint',	x1=0/16, y1=1/16, x2=1, y2=3/16 )
-    )
-    private_h.x2		= private_qr.x2
 
     # We'll use the right side of the private region, each line rotated 90 degrees down and right.
     # So, we need the upper-left corner of the private-bg anchored at the upper-right corner of

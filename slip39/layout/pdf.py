@@ -239,7 +239,6 @@ def produce_pdf(
 
         slip39_mnems		= []
         slip39_group		= [requires]
-        g_nam_max		= max( map( len, groups.keys() ))
         for g_nam,(g_of,g_mns) in groups.items():
             slip39_mnems.extend( g_mns )
             slip39_group.append( "" )
@@ -306,8 +305,6 @@ def write_pdfs(
     printer		= None,		# A printer name (or True for default), if output to printer is desired
     json_pwd		= None,		# If JSON wallet output desired, supply password
     text		= None,		# Truthy outputs SLIP-39 recover phrases to stdout
-    wallet_pwd		= None,		# If paper wallet images desired, supply password
-    wallet_pwd_hint	= None,		# an optional password hint
     wallet_format	= None,		# and a paper wallet format (eg. 'quarter')
     wallet_paper	= None,		# default Wallets to output on Letter format paper,
     cover_page		= True,         # Produce a cover page (including BIP-39 Mnemonic, if using_bip39)
@@ -387,20 +384,25 @@ def write_pdfs(
     for name, details in names.items():
         # Get the first group of the accountgroups in details.accounts.
         accounts		= details.accounts
-        assert accounts and accounts[0], \
-            "At least one --cryptocurrency must be specified"
-        for account in accounts[0]:
-            log.warning( f"{account.crypto:6} {account.path:20}: {account.address}" )
+        assert accounts and accounts[0], "At least one --cryptocurrency must be specified"
 
         if text:
-            # Output the SLIP-39 mnemonics as text, to stdout:
-            #    name: <mnemonic>
-            # or, if no name, just:
-            #    <mnemonic>
-            g_nam_max		= max( map( len, details.groups.keys() ))
-            for g_name,(g_of,g_mnems) in details.groups.items():
-                for i,mnem in enumerate( g_mnems ):
-                    print( f"{name}: {g_name}: {i+1} of {len(g_mnems)}: {mnem}" )
+            # Output the SLIP-39 mnemonics as text, to stdout.
+            print()
+            print("# SLIP-39 Mnemonic Cards")
+            for g_name, (g_of, g_mnems) in details.groups.items():
+                for i, mnem in enumerate(g_mnems):
+                    print(f"{name}: {g_name}: Card {i+1} of {len(g_mnems)}: {mnem}")
+
+            print()
+            print("# Accounts")
+            for account_group in accounts:
+                for account in account_group:
+                    try:
+                        print(f"{account.crypto} {account.path} {account.xpubkey} {account.xprvkey}")
+                    except NotImplementedError as e:
+                        log.error(f"Cannot print wallet for {account.crypto}: {e}")
+
 
         # Produce a PDF containing the SLIP-39 mnemonic recovery cards.
         (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
@@ -423,7 +425,7 @@ def write_pdfs(
         if not pdf_name.lower().endswith( '.pdf' ):
             pdf_name	       += '.pdf'
 
-        if wallet_pwd:
+        if wallet_format:
             # Deduce the paper wallet size and create a template.  All layouts are in specified in
             # inches; template dimensions are in mm.
             (wall_h,wall_w),wall_margin = WALLET_SIZES[wallet_format.lower()]
@@ -456,22 +458,16 @@ def write_pdfs(
                         pdf.add_page(orientation='portrait', format=wallet_paper)
                         page_n	= p
                     try:
-                        private_enc		= account.encrypted( wallet_pwd )
-                    except NotImplementedError as exc:
-                        log.exception( f"{account.crypto} doesn't support BIP-38 or JSON wallet encryption: {exc}" )
+                        private_enc = account.xprvkey
+                    except NotImplementedError as e:
+                        log.error(f"Cannot print wallet for {account.crypto}: {e}")
                         continue
 
                     wall_n     += 1
 
                     images			= os.path.dirname( __file__ )
-
                     wall_tpl['center']		= os.path.join( images, account.crypto + '.png' )
-
-                    wall_tpl['name-label']	= "Wallet:"
-                    wall_tpl['name-bg']		= os.path.join( images, '1x1-ffffff54.png' )
-                    wall_tpl['name']		= name
-
-                    # wall_tpl['center-bg']	= os.path.join( images, 'guilloche-center.png' )
+                    wall_tpl['name']		= f"{name} : {account.crypto}"
 
                     public_qr	= qrcode.QRCode(
                         version		= None,
@@ -479,14 +475,11 @@ def write_pdfs(
                         box_size	= 10,
                         border		= 1,
                     )
-                    public_qr.add_data( account.address )
-                    wall_tpl['address-l-bg']	= os.path.join( images, '1x1-ffffff54.png' )
-                    wall_tpl['address-l']	= account.address
-                    wall_tpl['address-r-bg']	= os.path.join( images, '1x1-ffffff54.png' )
-                    wall_tpl['address-r']	= account.address
 
-                    wall_tpl['address-qr-t']	= 'PUBLIC ADDRESS'
-                    wall_tpl['address-qr-bg']	= os.path.join( images, '1x1-ffffff54.png' )
+                    xpubkey = account.xpubkey
+                    public_qr.add_data(xpubkey)
+
+                    wall_tpl['address-qr-t']	= 'EXTENDED PUBLIC KEY'
                     wall_tpl['address-qr']	= public_qr.make_image( back_color="transparent" ).get_image()
                     wall_tpl['address-qr-b']	= 'DEPOSIT/VERIFY'
                     wall_tpl['address-qr-r']	= account.path
@@ -498,8 +491,6 @@ def write_pdfs(
                         border		= 1,
                     )
                     private_qr.add_data( private_enc )
-
-                    wall_tpl['private-bg']	= os.path.join( images, '1x1-ffffff54.png' )
 
                     # If not enough lines, will throw Exception, as it should!  We don't want to
                     # emit a Paper Wallet without the entire encrypted private key present.  This is
@@ -515,11 +506,7 @@ def write_pdfs(
                     log.debug( f"Private key line length: {line_chars} chars" )
                     for ln,line in enumerate( chunker( private_enc, line_chars )):
                         wall_tpl[f"private-{ln}"] = line
-                    wall_tpl['private-hint-t']	= 'PASSWORD HINT:'
-                    wall_tpl['private-hint-bg']	= os.path.join( images, '1x1-ffffff54.png' )
-                    wall_tpl['private-hint']	= wallet_pwd_hint
-                    wall_tpl['private-qr-t']	= 'PRIVATE KEY'
-                    wall_tpl['private-qr-bg']	= os.path.join( images, '1x1-ffffff54.png' )
+                    wall_tpl['private-qr-t']	= 'EXTENDED PRIVATE KEY'
                     wall_tpl['private-qr']	= private_qr.make_image( back_color="transparent" ).get_image()
                     wall_tpl['private-qr-b']	= 'SPEND'
 

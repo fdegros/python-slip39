@@ -271,19 +271,19 @@ class Account:
     Supports producing Legacy addresses for Bitcoin, and Litecoin.  Doge (D...) and Ethereum (0x...)
     addresses use standard BIP44 derivation.
 
-    | Crypto | Semantic | Path              | Address | Support |
-    |--------+----------+-------------------+---------+---------|
-    | ETH    | Legacy   | m/44'/ 60'/0'/0/0 | 0x...   |         |
-    | BNB    | Legacy   | m/44'/ 60'/0'/0/0 | 0x...   | Beta    |
-    | CRO    | Bech32   | m/44'/ 60'/0'/0/0 | crc1... | Beta    |
-    | BTC    | Legacy   | m/44'/  0'/0'/0/0 | 1...    |         |
-    |        | SegWit   | m/49'/  0'/0'/0/0 | 3...    |         |
-    |        | Bech32   | m/84'/  0'/0'/0/0 | bc1...  |         |
-    | LTC    | Legacy   | m/44'/  2'/0'/0/0 | L...    |         |
-    |        | SegWit   | m/49'/  2'/0'/0/0 | M...    |         |
-    |        | Bech32   | m/84'/  2'/0'/0/0 | ltc1... |         |
-    | DOGE   | Legacy   | m/44'/  3'/0'/0/0 | D...    |         |
-    | XRP    | Legacy   | m/44'/144'/0'/0/0 | r...    | Beta    |
+    | Crypto | Semantic | Path          | Address | Support |
+    |--------+----------+---------------+---------+---------|
+    | ETH    | Legacy   | m/44'/ 60'/0' | 0x...   |         |
+    | BNB    | Legacy   | m/44'/ 60'/0' | 0x...   | Beta    |
+    | CRO    | Bech32   | m/44'/ 60'/0' | crc1... | Beta    |
+    | BTC    | Legacy   | m/44'/  0'/0' | 1...    |         |
+    |        | SegWit   | m/49'/  0'/0' | 3...    |         |
+    |        | Bech32   | m/84'/  0'/0' | bc1...  |         |
+    | LTC    | Legacy   | m/44'/  2'/0' | L...    |         |
+    |        | SegWit   | m/49'/  2'/0' | M...    |         |
+    |        | Bech32   | m/84'/  2'/0' | ltc1... |         |
+    | DOGE   | Legacy   | m/44'/  3'/0' | D...    |         |
+    | XRP    | Legacy   | m/44'/144'/0' | r...    | Beta    |
 
     """
     CRYPTO_NAMES		= dict(  # Currently supported (in order of visibility)
@@ -330,29 +330,29 @@ class Account:
 
     CRYPTO_FORMAT_PATH		= dict(
         ETH		= dict(
-            legacy	= "m/44'/60'/0'/0/0",
+            legacy	= "m/44'/60'/0'",
         ),
         BNB		= dict(
-            legacy	= "m/44'/60'/0'/0/0",
+            legacy	= "m/44'/60'/0'",
         ),
         CRO		= dict(
-            bech32	= "m/44'/60'/0'/0/0",
+            bech32	= "m/44'/60'/0'",
         ),
         BTC		= dict(
-            legacy	= "m/44'/0'/0'/0/0",
-            segwit	= "m/49'/0'/0'/0/0",
-            bech32	= "m/84'/0'/0'/0/0",
+            legacy	= "m/44'/0'/0'",
+            segwit	= "m/49'/0'/0'",
+            bech32	= "m/84'/0'/0'",
         ),
         LTC		= dict(
-            legacy	= "m/44'/2'/0'/0/0",
-            segwit	= "m/49'/2'/0'/0/0",
-            bech32	= "m/84'/2'/0'/0/0",
+            legacy	= "m/44'/2'/0'",
+            segwit	= "m/49'/2'/0'",
+            bech32	= "m/84'/2'/0'",
         ),
         DOGE		= dict(
-            legacy	= "m/44'/3'/0'/0/0",
+            legacy	= "m/44'/3'/0'",
         ),
         XRP		= dict(
-            legacy	= "m/44'/144'/0'/0/0",
+            legacy	= "m/44'/144'/0'",
         )
     )
 
