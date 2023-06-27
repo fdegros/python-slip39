@@ -290,21 +290,19 @@ def produce_pdf(
         cover_sent = "\n".join( slip39_group )
         tpl_cover['cover-sent']	= cover_sent
 
-        pdf.add_page()
-        if orientation.lower().startswith( 'p' ):
-            tpl_cover.render( offsetx=pdf.epw, rotate=-90.0 )
-        else:
-            tpl_cover.render()
+        pdf.add_page(orientation='landscape')
+        tpl_cover.render()
 
-    card_n			= 0
-    page_n			= None
+    card_n = 0
+    page_n = 0
+    pdf.add_page(orientation=orientation)
     for g_n,(g_name,(g_of,g_mnems)) in enumerate( groups.items() ):
         for mn_n,mnem in enumerate( g_mnems ):
             p,(offsetx,offsety)	= page_xy( card_n )
+            card_n += 1
             if p != page_n:
-                pdf.add_page()
-                page_n		= p
-            card_n	       += 1
+                page_n = p
+                pdf.add_page(orientation=orientation)
 
             tpl['card-title']	= f"{name} : {g_name}"
             if watermark:
@@ -429,15 +427,12 @@ def write_pdfs(
                 for i,mnem in enumerate( g_mnems ):
                     print( f"{name}: {g_name}: {i+1} of {len(g_mnems)}: {mnem}" )
 
-        # Unless no card_format (False) or paper wallet password specified, produce a PDF containing
-        # the SLIP-39 mnemonic recovery cards; remember the deduced (<pdf_paper>,<pdf_orient>).  If
-        # we're producing paper wallets, always force portrait orientation for the cards, to match.
+        # Produce a PDF containing the SLIP-39 mnemonic recovery cards.
         if card_format is not False or wallet_pwd:
             (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
                 *details,
                 card_format	= card_format or CARD,
                 paper_format	= paper_format or PAPER,
-                orientations	= ('portrait', ) if wallet_pwd else None,
                 cover_text	= cover_text,
                 watermark	= watermark,
             )
@@ -472,7 +467,7 @@ def write_pdfs(
             if wallet_paper is None:
                 wallet_paper	= paper_format if type(paper_format) is str else PAPER
 
-            pdf.add_page( orientation='P', format=wallet_paper )
+            pdf.add_page(orientation='portrait', format=wallet_paper)
             page_margin_mm	= PAGE_MARGIN * MM_IN
 
             walls_pp,page_xy	= layout_components( pdf, comp_dim=wall_dim, page_margin_mm=page_margin_mm )
@@ -488,7 +483,7 @@ def write_pdfs(
                 for c_n,account in enumerate( account_group ):
                     p,(offsetx,offsety) = page_xy( wall_n )
                     if p != page_n:
-                        pdf.add_page( orientation='P', format=wallet_paper )
+                        pdf.add_page(orientation='portrait', format=wallet_paper)
                         page_n	= p
                     try:
                         private_enc		= account.encrypted( wallet_pwd )
