@@ -325,11 +325,8 @@ def produce_pdf(
 
         # Add the cover page(s), rotated to match the orientation deduced for the cards.  Thus, the
         # whole PDF will be printable with the deduced card page orientation.
-        pdf.add_page()
-        if orientation.lower().startswith( 'p' ):
-            tpl_cover.render( offsetx=pdf.epw, rotate=-90.0 )
-        else:
-            tpl_cover.render()
+        pdf.add_page(orientation='landscape')
+        tpl_cover.render()
 
         if double_sided:
             pdf.add_page()
@@ -560,7 +557,7 @@ def write_pdfs(
             if wallet_paper is None:
                 wallet_paper	= paper_format if type(paper_format) is str else PAPER
 
-            pdf.add_page( orientation='P', format=wallet_paper )
+            pdf.add_page(orientation='portrait', format=wallet_paper)
             page_margin_mm	= PAGE_MARGIN * MM_IN
 
             walls_pp,page_xy	= layout_components( pdf, comp_dim=wall_dim, page_margin_mm=page_margin_mm )
@@ -576,7 +573,7 @@ def write_pdfs(
                 for account in account_group:
                     p,(offsetx,offsety) = page_xy( wall_n )
                     if p != page_n:
-                        pdf.add_page( orientation='P', format=wallet_paper )
+                        pdf.add_page(orientation='portrait', format=wallet_paper)
                         if double_sided is None or double_sided:
                             pdf.add_page( orientation='P', format=wallet_paper )
                         page_n	= p
