@@ -315,15 +315,6 @@ def layout_wallet(
         Region( 'wallet-private', x1=+wallet_margin, y1=+wallet_margin, x2=-wallet_margin, y2=-wallet_margin )
     )
 
-    # Assign each different Crypto name a different color, in template labels crypto-{f,b}1, crypto-{f,b}2, ...
-    for c_n in range( len( COLOR )):
-        public.add_region_proportional(
-            Text( f'crypto-f{c_n}', x1=1/8, y1=-1/16, x2=7/8, y2=7/16, foreground=int( COLOR[c_n], 16 ), rotate=-45, priority=prio_normal )
-        )
-        private.add_region_proportional(
-            Text( f'crypto-b{c_n}', x1=2/8, y1=-1/16, x2=7/8, y2=7/16, foreground=int( COLOR[c_n], 16 ), rotate=-45, priority=prio_normal )
-        )
-
     # The background rosette and cryptocurrency symbol in the center
     public_center_size		= min( public.w, public.h )
     public.add_region(

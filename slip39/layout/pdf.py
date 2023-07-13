@@ -494,8 +494,6 @@ def write_pdfs(
                     wall_n     += 1
 
                     images			= os.path.dirname( __file__ )
-                    wall_tpl[f"crypto-f{c_n}"]	= account.crypto
-                    wall_tpl[f"crypto-b{c_n}"]	= account.crypto
 
                     wall_tpl['center']		= os.path.join( images, account.crypto + '.png' )
 
