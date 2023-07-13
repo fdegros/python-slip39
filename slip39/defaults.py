@@ -104,11 +104,14 @@ LAYOUT_REC			= 2
 LAYOUT_PRO			= 3
 
 BITS_DEFAULT			= 128
-BITS				= (128, 256, 512)
-BITS_BIP39			= BITS + (160, 192, 224)
+BITS				= (128, 160, 192, 224, 256, 512)
+BITS_BIP39			= BITS
 
 MNEM_ROWS_COLS			= {
     20:	( 7, 3),		# 128-bit seed
+    23:	( 8, 3),		# 160-bit seed
+    27:	( 9, 3),		# 192-bit seed
+    30:	( 8, 4),		# 224-bit seed
     33:	( 9, 4),		# 256-bit seed
     59:	(12, 5),		# 512-bit seed, eg. from BIP-39 (Unsupported on Trezor)
 }
