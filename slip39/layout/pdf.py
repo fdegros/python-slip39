@@ -39,7 +39,7 @@ from ..api		import Account, cryptopaths_parser, create, enumerate_mnemonic, grou
 from ..util		import chunker
 from ..recovery		import recover, produce_bip39
 from ..defaults		import (
-    FONTS, ANONYMOUS, CARD, CARD_SIZES, PAPER, ORIENTATION, PAGE_MARGIN, MM_IN, PT_IN,
+    FONTS, ANONYMOUS, BACKGROUNDS, CARD, CARD_SIZES, PAPER, ORIENTATION, PAGE_MARGIN, MM_IN, PT_IN,
     WALLET, WALLET_SIZES,
     GROUPS, GROUP_THRESHOLD_RATIO,
     FILENAME_FORMAT,
@@ -298,8 +298,9 @@ def produce_pdf(
             log.debug( f"Cover elements: {json.dumps( cover_elements, indent=4)}" )
         tpl_cover		= fpdf.FlexTemplate( pdf, cover_elements )
         images			= os.path.dirname( __file__ )
-        tpl_cover['cover-image'] = os.path.join( images, 'SLIP-39.png' )
-        tpl_cover['cover-fade'] = os.path.join( images, '1x1-ffffffbf.png' )
+        if BACKGROUNDS:
+            tpl_cover['cover-image'] = os.path.join( images, 'SLIP-39.png' )
+            tpl_cover['cover-fade'] = os.path.join( images, '1x1-ffffffbf.png' )
 
         slip39_mnems		= []
         slip39_group		= []
@@ -370,10 +371,10 @@ def produce_pdf(
                 if len( accounts[0] ) > 1:
                     f['card-crypto2'] = f"{accounts[0][1].crypto} {accounts[0][1].path}: {accounts[0][1].address}"
                     f['card-qr2']	= io.BytesIO( qr_acct[1].to_string(encoding='unicode').encode('UTF-8'))  # get_image()
-                f[f'card-g{g_n}']	= \
-                  b[f'card-g{g_n}']	= f"{g_name:7.7}..{mn_n+1}" if len(g_name) > 8 else f"{g_name} {mn_n+1}"
+                if BACKGROUNDS:
+                    f[f'card-g{g_n}'] = b[f'card-g{g_n}'] = f"{g_name:7.7}..{mn_n+1}" if len(g_name) > 8 else f"{g_name} {mn_n+1}"
             f['card-title'] = b['card-title'] = title
-            if watermark:
+            if BACKGROUNDS and watermark:
                 f['card-watermark'] = watermark
             for n,m in enumerate_mnemonic( mnem ).items():
                 mn_idx		= f"mnem-{n}-big" if anonymous else f"mnem-{n}"
@@ -605,9 +606,10 @@ def write_pdfs(
                     wall_n     += 1
 
                     images			= os.path.dirname( __file__ )
-                    wall_tpl['wallet-bg']	= os.path.join( images, 'paper-wallet-background.png' )
-                    wall_tpl[f"crypto-f{c_n}"]	= account.crypto
-                    wall_tpl[f"crypto-b{c_n}"]	= account.crypto
+                    if BACKGROUNDS:
+                        wall_tpl['wallet-bg']	= os.path.join( images, 'paper-wallet-background.png' )
+                        wall_tpl[f"crypto-f{c_n}"]	= account.crypto
+                        wall_tpl[f"crypto-b{c_n}"]	= account.crypto
 
                     wall_tpl['center']		= os.path.join( images, account.crypto + '.png' )
 
