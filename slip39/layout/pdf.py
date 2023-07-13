@@ -494,7 +494,6 @@ def write_pdfs(
                     wall_n     += 1
 
                     images			= os.path.dirname( __file__ )
-                    wall_tpl['wallet-bg']	= os.path.join( images, 'paper-wallet-background.png' )
                     wall_tpl[f"crypto-f{c_n}"]	= account.crypto
                     wall_tpl[f"crypto-b{c_n}"]	= account.crypto
 

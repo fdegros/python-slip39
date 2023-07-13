@@ -298,9 +298,6 @@ def layout_wallet(
     prio_contrast		= -1
 
     wallet			= Box( 'wallet', 0, 0, wallet_size.x, wallet_size.y )
-    wallet_background		= wallet.add_region_proportional(  # noqa: F841
-        Image( 'wallet-bg', priority=prio_backing ),
-    )
 
     # Most of the Paper Wallet is visible (contains public address information).  The right-most
     # portion can be folded over, and displays private key information
