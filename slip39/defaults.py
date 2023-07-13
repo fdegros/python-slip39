@@ -82,7 +82,7 @@ PAGE_MARGIN			= 1/4  # Typical printers cannot print within 1/4" of edge
 MM_IN				= 25.4
 PT_IN				= 72
 
-PAPER				= 'Letter'
+PAPER				= 'A4'
 PAPER_FORMATS			= dict(
     Letter	= 'Letter',
     Legal	= 'Legal',
