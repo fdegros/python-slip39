@@ -216,28 +216,6 @@ def produce_pdf(
         for g_nam,(g_of,g_mns) in groups.items() )
     requires			= f"Need {group_threshold} of {len(group_reqs)} groups"
 
-    # Convert all of the first group's account(s) to an address QR code
-    assert accounts and accounts[0], \
-        "At least one cryptocurrency account must be supplied"
-    qr				= {}
-    for i,acct in enumerate( accounts[0] ):
-        qrc			= qrcode.QRCode(
-            version	= None,
-            error_correction = qrcode.constants.ERROR_CORRECT_M,
-            box_size	= 10,
-            border	= 1
-        )
-        qrc.add_data( acct.address )
-        qrc.make( fit=True )
-
-        qr[i]			= qrc.make_image()
-        if log.isEnabledFor( logging.INFO ):
-            f			= io.StringIO()
-            qrc.print_ascii( out=f )
-            f.seek( 0 )
-            for line in f:
-                log.info( line.strip() )
-
     if cover_text:
         # Cover page is always laid out in landscape, and rotated if necessary
         cvw			= max( pdf.epw, pdf.eph )
@@ -480,7 +458,7 @@ def write_pdfs(
             wall_n		= 0
             page_n		= 0
             for account_group in accounts:
-                for c_n,account in enumerate( account_group ):
+                for account in account_group:
                     p,(offsetx,offsety) = page_xy( wall_n )
                     if p != page_n:
                         pdf.add_page(orientation='portrait', format=wallet_paper)
