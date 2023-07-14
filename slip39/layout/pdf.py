@@ -183,10 +183,7 @@ def produce_pdf(
     if orientations is None:
         orientations		= ('portrait', 'landscape')
     # Deduce the card size
-    try:
-        (card_h,card_w),card_margin = CARD_SIZES[card_format.lower()]
-    except KeyError:
-        (card_h,card_w),card_margin = ast.literal_eval( card_format )
+    (card_h,card_w),card_margin = CARD_SIZES[card_format.lower()]
     card_size			= Coordinate( y=card_h, x=card_w )
 
     # Compute how many cards per page.  Flip page portrait/landscape to match the cards'.  Use the length
@@ -406,14 +403,12 @@ def write_pdfs(
                     print( f"{name}: {g_name}: {i+1} of {len(g_mnems)}: {mnem}" )
 
         # Produce a PDF containing the SLIP-39 mnemonic recovery cards.
-        if card_format is not False or wallet_pwd:
-            (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
-                *details,
-                card_format	= card_format or CARD,
-                paper_format	= paper_format or PAPER,
-                cover_text	= cover_text,
-                watermark	= watermark,
-            )
+        (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
+            *details,
+            card_format	= card_format,
+            paper_format	= paper_format or PAPER,
+            cover_text	= cover_text,
+            watermark	= watermark)
 
         now			= datetime.now()
 

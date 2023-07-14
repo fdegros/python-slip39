@@ -90,10 +90,8 @@ def main( argv=None ):
                      default=None,
                      help="Encrypt the master secret w/ this passphrase, '-' reads it from stdin (default: None/'')" )
     ap.add_argument( '-C', '--card',
-                     default=None,
-                     help=f"Card size; {', '.join(CARD_SIZES.keys())} or '(<h>,<w>),<margin>' (default: {CARD})" )
-    ap.add_argument( '--no-card', dest="card", action='store_false',
-                     help="Disable PDF SLIP-39 mnemonic card output" )
+                     default=CARD,
+                     help=f"Card size; {', '.join(CARD_SIZES.keys())} (default: {CARD})" )
     ap.add_argument( '--paper',
                      default=None,
                      help=f"Paper size (default: {PAPER})" )
@@ -193,7 +191,7 @@ def main( argv=None ):
             group_threshold	= args.threshold,
             cryptocurrency	= args.cryptocurrency,
             edit		= args.path,
-            card_format		= args.card,    # False inhibits SLIP-39 Card output
+            card_format		= args.card,
             paper_format	= args.paper,
             filename		= args.output,  # outputs to the current working dir, by default
             json_pwd		= json_pwd,
