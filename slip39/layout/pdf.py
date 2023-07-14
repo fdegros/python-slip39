@@ -548,7 +548,7 @@ def write_pdfs(
         pdf_name		= ( filename or FILENAME_FORMAT ).format(
             name	= name or "SLIP39",
             date	= datetime.strftime( now, '%Y-%m-%d' ),
-            time	= datetime.strftime( now, '%H.%M.%S'),
+            time	= datetime.strftime( now, '%H-%M-%S'),
             crypto	= accounts[0][0].crypto,
             path	= accounts[0][0].path,
             address	= accounts[0][0].address,
@@ -685,7 +685,7 @@ def write_pdfs(
                 json_name	= ( filename or FILENAME_FORMAT ).format(
                     name	= name or "SLIP39",
                     date	= datetime.strftime( now, '%Y-%m-%d' ),
-                    time	= datetime.strftime( now, '%H.%M.%S'),
+                    time	= datetime.strftime( now, '%H-%M-%S'),
                     crypto	= eth.crypto,
                     path	= eth.path,
                     address	= eth.address,
