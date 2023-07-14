@@ -57,7 +57,7 @@ QUARTER_LETTER			= (10.5/4,7+3/4), 1/8   # noqa: E241 (actually, 4/letter, 5/leg
 PHOTO_CARD			= (3+1/2, 5+1/2), 1/8   # prints on 4x6 photo paper w/ 1/4" default outer border
 
 # SLIP-39 Mnemonic Card Sizes
-CARD				= 'business'
+CARD = 'index'
 CARD_SIZES			= dict(
     business	= BUSINESS_CARD,
     credit	= CREDIT_CARD,
