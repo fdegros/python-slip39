@@ -75,8 +75,8 @@ def main( argv=None ):
                      default=None,
                      help="Paper wallets password hint" )
     ap.add_argument( '--wallet-format',
-                     default=None,
-                     help=f"Paper wallet size; {', '.join(WALLET_SIZES.keys())} or '(<h>,<w>),<margin>' (default: {WALLET})" )
+                     default=WALLET,
+                     help=f"Paper wallet size; {', '.join(WALLET_SIZES.keys())} (default: {WALLET})" )
     ap.add_argument( '-s', '--secret',
                      default=None,
                      help="Use the supplied 128-, 256- or 512-bit hex value as the secret seed; '-' reads it from stdin (eg. output from slip39.recover)" )
@@ -172,7 +172,6 @@ def main( argv=None ):
         else:
             log.warning( "It is recommended to not use '-w|--wallet <password>'; specify '-' to read from input" )
     wallet_pwd_hint		= args.wallet_hint
-    wallet_format		= args.wallet_format
 
     json_pwd			= args.json
     if json_pwd:
@@ -198,7 +197,7 @@ def main( argv=None ):
             text		= args.text,
             wallet_pwd		= wallet_pwd,
             wallet_pwd_hint	= wallet_pwd_hint,
-            wallet_format	= wallet_format,
+            wallet_format	= args.wallet_format,
             cover_page		= args.cover_page,
             watermark		= args.watermark,
         )
