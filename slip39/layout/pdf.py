@@ -576,7 +576,7 @@ def write_pdfs(
             wall_n		= 0
             page_n		= 0
             for account_group in accounts:
-                for c_n,account in enumerate( account_group ):
+                for account in account_group:
                     p,(offsetx,offsety) = page_xy( wall_n )
                     if p != page_n:
                         pdf.add_page( orientation='P', format=wallet_paper )
