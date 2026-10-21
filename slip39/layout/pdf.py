@@ -549,10 +549,7 @@ def write_pdfs(
             # Deduce the paper wallet size and create a template.  All layouts are in specified in
             # inches; template dimensions are in mm.  Paper wallets are always formatted for
             # portrait orientation; we've forced that, above, if paper wallets are desired.
-            try:
-                (wall_h,wall_w),wall_margin = WALLET_SIZES[wallet_format.lower() if wallet_format else WALLET]
-            except KeyError:
-                (wall_h,wall_w),wall_margin = ast.literal_eval( wallet_format )
+            (wall_h,wall_w),wall_margin = WALLET_SIZES[( wallet_format or WALLET ).lower()]
 
             wall		= layout_wallet( Coordinate( y=wall_h, x=wall_w ), wall_margin )  # converts to mm
             wall_dim		= wall.mm()
