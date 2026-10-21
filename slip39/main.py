@@ -112,8 +112,6 @@ def main( argv=None ):
     ap.add_argument( '-C', '--card',
                      default=None,
                      help=f"Card size; {', '.join(CARD_SIZES.keys())} or '(<h>,<w>),<margin>' (default: {CARD})" )
-    ap.add_argument( '--no-card', dest="card", action='store_false',
-                     help="Disable PDF SLIP-39 mnemonic card output" )
     ap.add_argument( '--paper',
                      default=None,
                      help=f"Paper size (default: {PAPER})" )
@@ -246,7 +244,7 @@ def main( argv=None ):
 
     try:
         # Output the filenames of the emitted PDFs (the keys of the returned dict), one per line
-        # (unless quiet, or --no-card)
+        # (unless quiet)
         results			= write_pdfs(
             names		= args.names,
             master_secret	= master_secret,
@@ -257,7 +255,7 @@ def main( argv=None ):
             group_threshold	= args.threshold,
             cryptocurrency	= args.cryptocurrency,
             edit		= args.path,
-            card_format		= args.card,    # False inhibits SLIP-39 Card output
+            card_format		= args.card,
             paper_format	= args.paper,
             filename		= args.output,  # outputs to the current working dir, by default
             json_pwd		= json_pwd,
@@ -271,7 +269,7 @@ def main( argv=None ):
             extendable		= args.extendable,
             identifier		= args.identifier,
         )
-        if args.card is not False and (args.verbose - args.quiet) >= 0:
+        if (args.verbose - args.quiet) >= 0:
             print( "\n".join( results ))
     except Exception as exc:
         log.exception( f"Failed to write PDFs: {exc}" )

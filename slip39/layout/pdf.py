@@ -414,7 +414,7 @@ def write_pdfs(
     cryptocurrency	= None,		# sequence of [ 'ETH:<path>', ... ] to produce accounts for
     edit		= None,		# Adjust crypto paths according to the provided path edit
     anonymous		= ANONYMOUS,	# Produce cryptocurrency addresses and QR codes
-    card_format		= None,		# Eg. "credit"; False outputs no SLIP-39 Mnemonic cards to PDF
+    card_format		= None,		# Eg. "credit"
     paper_format	= None,		# Eg. "Letter", "Legal", (x,y)
     filename		= None,		# A file name format w/ {path}, etc. formatters
     filepath		= True,		# A file path, if PDF output to file is desired; ''/True implies current dir.
@@ -523,22 +523,21 @@ def write_pdfs(
             else:
                 cover_text     += open(os.path.join(os.path.dirname(__file__), 'COVER-SLIP-39.txt'), encoding='UTF-8').read()
 
-        # Unless no card_format (False) or paper wallet password specified, produce a PDF containing
-        # the SLIP-39 mnemonic recovery cards; remember the deduced (<pdf_paper>,<pdf_orient>).  If
-        # we're producing paper wallets, always force portrait orientation for the cards, to match
-        # the layout of the paper wallets, so that all page orientations will match; this may result
-        # in a sub-optimal card layout, but mixing orientations in a PDF confuses some printers.
-        if card_format is not False or wallet_pwd not in (None, False):
-            (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
-                *details,
-                anonymous	= anonymous,
-                card_format	= card_format or CARD,
-                paper_format	= paper_format or PAPER,
-                orientations	= ('portrait', ) if wallet_pwd not in (None, False) else None,
-                cover_text	= cover_text,
-                watermark	= watermark,
-                double_sided	= double_sided,
-            )
+        # Produce a PDF containing the SLIP-39 mnemonic recovery cards; remember the deduced
+        # (<pdf_paper>,<pdf_orient>).  If we're producing paper wallets, always force portrait
+        # orientation for the cards, to match the layout of the paper wallets, so that all page
+        # orientations will match; this may result in a sub-optimal card layout, but mixing
+        # orientations in a PDF confuses some printers.
+        (pdf_paper,pdf_orient),pdf,_ = produce_pdf(
+            *details,
+            anonymous	= anonymous,
+            card_format	= card_format or CARD,
+            paper_format	= paper_format or PAPER,
+            orientations	= ('portrait', ) if wallet_pwd not in (None, False) else None,
+            cover_text	= cover_text,
+            watermark	= watermark,
+            double_sided	= double_sided,
+        )
 
         now			= datetime.now()
 
