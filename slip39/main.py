@@ -77,12 +77,6 @@ def main( argv=None ):
     ap.add_argument( '-j', '--json',
                      default=None,
                      help="Save an encrypted JSON wallet for each Ethereum address w/ this password, '-' reads it from stdin (default: None)" )
-    ap.add_argument( '-w', '--wallet',
-                     default=None,
-                     help="Produce paper wallets in output PDF; each wallet private key is encrypted this password (use --wallet=\"\" for empty password)" )
-    ap.add_argument( '--wallet-hint',
-                     default=None,
-                     help="Paper wallets password hint" )
     ap.add_argument( '--wallet-format',
                      default=WALLET,
                      help=f"Paper wallet size; {', '.join(WALLET_SIZES.keys())} (default: {WALLET})" )
@@ -225,15 +219,7 @@ def main( argv=None ):
         else:
             log.warning( "The SLIP-39 Standard Passphrase is not compatible w/ the Trezor hardware wallet; use its 'Hidden wallet' feature instead" )
 
-    # Optional Paper Wallet and/or JSON Wallet file passwords
-    wallet_pwd			= args.wallet
-    if wallet_pwd:
-        if wallet_pwd == '-':
-            wallet_pwd		= input_secure( 'Paper Wallet password: ', secret=True )
-        else:
-            log.warning( "It is recommended to not use '-w|--wallet <password>'; specify '-' to read from input" )
-    wallet_pwd_hint		= args.wallet_hint
-
+    # Optional JSON Wallet file password
     json_pwd			= args.json
     if json_pwd is not None:
         if json_pwd == '-':
@@ -259,8 +245,6 @@ def main( argv=None ):
             filename		= args.output,  # outputs to the current working dir, by default
             json_pwd		= json_pwd,
             text		= args.text,
-            wallet_pwd		= wallet_pwd,
-            wallet_pwd_hint	= wallet_pwd_hint,
             wallet_format	= args.wallet_format,
             cover_page		= args.cover_page,
             watermark		= args.watermark,

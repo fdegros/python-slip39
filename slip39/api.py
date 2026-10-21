@@ -18,6 +18,7 @@ from __future__          import annotations
 
 import base58
 import codecs
+import copy
 import hashlib
 import itertools
 import json
@@ -759,6 +760,20 @@ class Account:
         # In order to support any number of derivation path segments, we only use CustomDerivation
         self.hdwallet.from_derivation( derivation=CustomDerivation( path=from_path ))
         return self
+
+    def account_level( self, depth: int = 3 ) -> Account:
+        """Returns a copy of this Account, derived to the BIP-44 "account" level: the first `depth`
+        segments of the current path (eg. "m/84'/0'/0'" for "m/84'/0'/0'/0/0").  The returned
+        Account's xpubkey/xprvkey are those of the account, and derive every receive/change address
+        of the account (eg. this Account's address, using "m/0/0" with from_xpubkey).  If the path
+        has no more than `depth` segments, the copy is left at the current path.
+
+        """
+        segments		= self.path.split( '/' )  # eg. [ 'm', "84'", "0'", "0'", '0', '0' ]
+        acct			= copy.deepcopy( self )
+        if len( segments ) > depth + 1:
+            acct.from_path( '/'.join( segments[:depth+1] ))
+        return acct
 
     def from_derivation( self, derivation: IDerivation ):
         self.hdwallet.clean_derivation()

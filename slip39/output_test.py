@@ -5,7 +5,7 @@ from pytest 		import approx
 from fpdf		import FPDF, FlexTemplate
 
 from .layout		import Region, Text, Image, Box, Coordinate, write_pdfs
-from .defaults		import MM_IN
+from .defaults		import MM_IN, WALLET_SIZES
 
 
 def test_Region():
@@ -130,3 +130,18 @@ def test_anonymous_cards( tmp_path, rendered_cards ):
         assert "Alice" not in "".join( str( v ) for v in t.values() )
     # The mnemonic words are the (large) ones
     assert any( k.endswith( '-big' ) for t in cards for k in t if k.startswith( 'mnem-' ))
+
+
+def test_wallet_xpub_fits( tmp_path ):
+    """The wrapped extended public key (write_pdfs asserts it fits) is printed on every Paper Wallet size."""
+    for wallet_format in WALLET_SIZES:
+        results			= write_pdfs(
+            names		= [ "Test" ],
+            master_secret	= bytes.fromhex( "ff" * 16 ),
+            cryptocurrency	= [ "BTC", "ETH" ],
+            filepath		= str( tmp_path ),
+            filename		= f"wallet-{wallet_format}",
+            wallet_format	= wallet_format,
+        )
+        assert list( results ) == [ f"wallet-{wallet_format}.pdf" ]
+        assert ( tmp_path / f"wallet-{wallet_format}.pdf" ).stat().st_size > 0
