@@ -73,6 +73,8 @@ CARD_SIZES			= dict(
 
 # Paper Wallet Bill Sizes, by default on PAPER format paper
 WALLET				= 'quarter'
+XPUB_CHARS			= 111	# The length of an extended public key (xpub..., ypub..., zpub...)
+WALLET_FONTSIZE			= 8	# Points; the size of the extended key text on a Paper Wallet
 WALLET_SIZES			= dict(
     half	= HALF_LETTER,
     third	= THIRD_LETTER,

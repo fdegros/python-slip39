@@ -247,6 +247,25 @@ def test_slip39_compatibility():
     account.from_mnemonic( "\n".join(mnemonics), slip39_passphrase='TREZOR', path="m/" )
     assert account.xprvkey == "xprv9s21ZrQH143K4QViKpwKCpS2zVbz8GrZgpEchMDg6KME9HZtjfL7iThE9w5muQA4YPHKN1u5VM1w8D4pvnjxa2BmpGMfXr7hnRrRHZ93awZ"
 
+def test_account_level():
+    """The account level xpub/xprv derive all of the account's addresses; deriving them doesn't alter the Account."""
+    for crypto,account_path in (( 'BTC', "m/84'/0'/0'" ), ( 'ETH', "m/44'/60'/0'" )):
+        acct			= account( SEED_ONES, crypto=crypto )
+        address			= acct.address
+        level			= acct.account_level()
+        assert level.path == account_path
+        assert acct.path == account_path + "/0/0" and acct.address == address  # unchanged
+        assert level.xpubkey != acct.xpubkey and level.xprvkey != acct.xprvkey
+
+        # The account's xpub and xprv regenerate the original address at the standard "m/0/0"
+        assert Account( crypto, acct.format ).from_xpubkey( level.xpubkey, path="m/0/0" ).address == address
+        assert Account( crypto, acct.format ).from_xprvkey( level.xprvkey, path="m/0/0" ).address == address
+
+        # A path already at (or above) the account level is left alone
+        assert level.account_level().path == account_path
+        assert level.account_level().xpubkey == level.xpubkey
+
+
 def test_account_from_mnemonic():
     """Test all the ways the entropy 0xffff...ffff can be encoded and HD Wallets derived."""
     # Raw 0xffff...ffff entropy as Seed.  Not BIP-39 decoded (hashed) via mnemonic to produce Seed.

@@ -3,8 +3,8 @@ import qrcode
 from pytest 		import approx
 from fpdf		import FPDF, FlexTemplate
 
-from .layout		import Region, Text, Image, Box, Coordinate
-from .defaults		import MM_IN
+from .layout		import Region, Text, Image, Box, Coordinate, write_pdfs
+from .defaults		import MM_IN, WALLET_SIZES
 
 
 def test_Region():
@@ -73,3 +73,18 @@ def test_Region():
     tpl.render( offsetx = card_size.x * MM_IN, offsety = card_size.y * MM_IN )
 
     #pdf.output( "test.pdf" ) # To view results in test.pdf, uncomment
+
+
+def test_wallet_xpub_fits( tmp_path ):
+    """The wrapped extended public key (write_pdfs asserts it fits) is printed on every Paper Wallet size."""
+    for wallet_format in WALLET_SIZES:
+        results			= write_pdfs(
+            names		= [ "Test" ],
+            master_secret	= bytes.fromhex( "ff" * 16 ),
+            cryptocurrency	= [ "BTC", "ETH" ],
+            filepath		= str( tmp_path ),
+            filename		= f"wallet-{wallet_format}",
+            wallet_format	= wallet_format,
+        )
+        assert list( results ) == [ f"wallet-{wallet_format}.pdf" ]
+        assert ( tmp_path / f"wallet-{wallet_format}.pdf" ).stat().st_size > 0

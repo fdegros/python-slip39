@@ -27,7 +27,7 @@ from fpdf		import FPDF
 
 from ..util		import ordinal
 from ..defaults		import (
-    FONTS, MNEM_ROWS_COLS, MM_IN, PT_IN, COLOR, PAGE_MARGIN,
+    FONTS, MNEM_ROWS_COLS, MM_IN, PT_IN, COLOR, PAGE_MARGIN, XPUB_CHARS, WALLET_FONTSIZE,
 )
 
 log				= logging.getLogger( __package__ )
@@ -366,63 +366,40 @@ def layout_wallet(
         )
     )
 
-    # Public addresses are vertical on left- and right-hand of public Region.  In order to fit the
-    # longer ETH addresses into a space with a fixed-width font, we know that the ratio of the width
-    # to the height has to be about 1/20.  Rotation is downward around upper-left corner; so,
-    # lower-left corner will shift 1 height leftward and upward; so start 1 height right and down.
-    address_length		= public.h
-    address_height		= address_length * 1/20
-    public.add_region(
-        Image(
-            'address-l-bg',
-            x1		= public.x1 + address_height,
-            y1		= public.y1,
-            x2		= public.x1 + address_height + address_length,
-            y2		= public.y1 + address_height,
-            rotate	= -90,
-            priority	= prio_contrast,
+    # The extended public key is printed once, along the left-hand edge of the public Region, in the
+    # same font size and wrapping as the private key: each line rotated 90 degrees down and right,
+    # and (like the private key lines) the first line outermost... of the lines' block, the following
+    # lines to its left.  The rest of the public Region moves right to make room for the lines.
+    xpub_fontsize		= WALLET_FONTSIZE		# points == 1/72 inch
+    xpub_lineheight		= xpub_fontsize / PT_IN / Text.SIZE_RATIO * .9  # in.
+    xpub_line_chars		= int( public.h * PT_IN / xpub_fontsize / ( 5 / 8 ))  # Chars ~ 5/8 width vs. height
+    xpub_lines			= -( -XPUB_CHARS // xpub_line_chars )  # ceil
+    xpub_width			= xpub_lines * xpub_lineheight
+    public_x1			= max( 1/16, ( xpub_width + .05 ) / public.w )
+    for ln in range( xpub_lines ):
+        public.add_region(
+            Text(
+                f"xpub-{ln}",
+                font	= 'mono',
+                x1	= public.x1 + xpub_width - xpub_lineheight * ln,
+                y1	= public.y1,
+                x2	= public.x1 + xpub_width - xpub_lineheight * ln + public.h,
+                y2	= public.y1 + xpub_lineheight,
+                size	= xpub_fontsize,
+                rotate	= -90,
+            )
         )
-    ).add_region(
-        Text(
-            'address-l',
-            font	= 'mono',
-            rotate	= -90,
-        )
-    )
-
-    # Rotation is upward around the upper-left corner, so lower-left corner will shift 1 height
-    # upward and right; so start 1 height leftward and down.
-    public.add_region(
-        Image(
-            'address-r-bg',
-            x1		= public.x2 - address_height,
-            y1		= public.y2,
-            x2		= public.x2 - address_height + address_length,
-            y2		= public.y2 + address_height,
-            rotate	= +90,
-            priority	= prio_contrast,
-        )
-    ).add_region(
-        Text(
-            'address-r',
-            font	= 'mono',
-            rotate	= +90,
-        )
-    )
 
     # Wallet name, amount
     public.add_region_proportional(
-        Text( 'name-label',	x1=1/16, y1=0/16, x2=4/16, y2=1/16 )
+        Image( 'name-bg',	x1=public_x1, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
     )
     public.add_region_proportional(
-        Image( 'name-bg',	x1=4/16, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
-    )
-    public.add_region_proportional(
-        Text( 'name',		x1=4/16, y1=0/16, x2=15/16, y2=1/16 )
+        Text( 'name',		x1=public_x1, y1=0/16, x2=15/16, y2=1/16 )
     )
 
     public.add_region_proportional(
-        Text( 'amount-label',	x1=1/16, y1=3/16, x2=4/16, y2=1/16 )
+        Text( 'amount-label',	x1=public_x1, y1=3/16, x2=4/16, y2=1/16 )
     )
     public.add_region_proportional(
         Image( 'amount-bg',	x1=4/16, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
@@ -433,20 +410,20 @@ def layout_wallet(
 
     # Make Public QR Code square w/ min of height, width, anchored at lower-left corner
     public.add_region_proportional(
-        Text( 'address-qr-t',	x1=1/16, y1=5/16, x2=1, y2=6/16 )
+        Text( 'address-qr-t',	x1=public_x1, y1=5/16, x2=1, y2=6/16 )
     )
     public_qr			= public.add_region_proportional(
-        Image( 'address-qr-bg',	x1=1/16, y1=6/16, x2=1, y2=15/16 )
+        Image( 'address-qr-bg',	x1=public_x1, y1=6/16, x2=1, y2=15/16 )
     ).square( justify='BL' )
     public_qr.add_region(
         Image( 'address-qr' )
     )
 
     public.add_region_proportional(
-        Text( 'address-qr-b',	x1=1/16, y1=15/16, x2=1, y2=16/16 )
+        Text( 'address-qr-b',	x1=public_x1, y1=15/16, x2=1, y2=16/16 )
     )
     public_qr_r			= public.add_region_proportional(
-        Text( 'address-qr-r',	x1=1/16, y1=6/16, x2=1, y2=7/16, rotate=-90 )
+        Text( 'address-qr-r',	x1=public_x1, y1=6/16, x2=1, y2=7/16, rotate=-90 )
     )
     public_qr_r.x1	       += public_qr.w + public_qr_r.h
     public_qr_r.x2	       += public_qr.w
@@ -468,25 +445,11 @@ def layout_wallet(
         Text( 'private-qr-b',	x1=0/16, y1=15/16, x2=1, y2=16/16 )
     )
 
-    # Hint above; but same computed width as private_qr
-    private_h_t			= private.add_region_proportional(
-        Text( 'private-hint-t',	x1=0/16, y1=0/16, x2=1, y2=1/16 )
-    )
-    private_h_t.x2		= private_qr.x2
-    private_h_bg		= private.add_region_proportional(
-        Image( 'private-hint-bg',x1=0/16, y1=1/16, x2=1, y2=4/16, priority=prio_contrast )
-    )
-    private_h_bg.x2		= private_qr.x2
-    private_h			= private.add_region_proportional(
-        Text( 'private-hint',	x1=0/16, y1=1/16, x2=1, y2=3/16 )
-    )
-    private_h.x2		= private_qr.x2
-
     # We'll use the right side of the private region, each line rotated 90 degrees down and right.
     # So, we need the upper-left corner of the private-bg anchored at the upper-right corner of
     # private.
     private_length		= private.h                     # line length is y-height
-    private_fontsize		= 6.5				# points == 1/72 inch
+    private_fontsize		= WALLET_FONTSIZE		# points == 1/72 inch
     private_height		= private.x2 - private_qr.x2 - .05
     private_lineheight		= private_fontsize / PT_IN / Text.SIZE_RATIO * .9  # in.
 
