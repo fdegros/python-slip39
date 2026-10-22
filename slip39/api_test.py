@@ -649,3 +649,23 @@ def test_accountgroups():
     ))
     # print( json.dumps( acctgrps, default=repr ))
     assert len(acctgrps) == 4
+
+
+def test_create_group_requiring_one():
+    """SLIP-39 has no "1 of X" groups: they are generated as "1 of 1", w/ X identical copies of the Mnemonic."""
+    details			= create(
+        "SLIP39 Wallet: 1 of X",
+        2,
+        dict( Me = (1,3), Fam = (2,3), Solo = (1,1) ),
+        SEED_ONES,
+    )
+    me,fam,solo			= details.groups['Me'][1],details.groups['Fam'][1],details.groups['Solo'][1]
+    assert len( me ) == 3 and len( set( me )) == 1
+    assert len( fam ) == 3 and len( set( fam )) == 3
+    assert len( solo ) == 1
+
+    # Any one of the copies serves, w/ the 2nd group; but one group alone isn't enough
+    assert recover( me[2:3] + fam[:2] ) == SEED_ONES
+    assert recover( me[:1] + solo ) == SEED_ONES
+    with pytest.raises( shamir_mnemonic.MnemonicError ):
+        recover( fam[:2] )
