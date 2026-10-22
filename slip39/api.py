@@ -1194,6 +1194,7 @@ def group_parser( group_spec ):
 
         Frens6, Frens 6, Frens(6)	- A 3/6 group (default is 1/2 of group size, rounded up)
         Frens2/6, Frens(2/6)		- A 2/6 group
+        Me1/3, Me(1/3)			- A 1/3 group: 3 identical copies of 1 card (SLIP-39 has no "1 of X" groups)
 
     """
     match			= group_parser.RE.match( group_spec )
@@ -1432,17 +1433,26 @@ def mnemonics_encrypted(
     producing more potential recovery options for 1 or more group(s).  Since SLIP-39 doesn't allow
     "1 of X" groups (for anything other than "1 of 1"), you cannot extend existing "1 of 1" groups.
 
+    A "1 of X" group (X > 1) is generated as a "1 of 1" group, whose single Mnemonic is then
+    repeated X times: any 1 of the X (identical) cards recovers the group.
+
     """
     groups			= list( groups )
     if not group_threshold:
         group_threshold		= math.ceil( len( groups ) * GROUP_THRESHOLD_RATIO )
 
-    grouped_shares		= split_ems( group_threshold, groups, encrypted_secret )
+    # SLIP-39 doesn't allow a "1 of X" group; the share of a "1 of 1" group is the group's secret.  So,
+    # split "1 of X" groups as "1 of 1", and make X copies of the resulting Mnemonic.
+    copies			= [ size if need == 1 else 1 for need,size in groups ]
+    grouped_shares		= split_ems( group_threshold, [ ( need, 1 if need == 1 else size ) for need,size in groups ], encrypted_secret )
     log.warning(
         f"Generated {len(encrypted_secret.ciphertext)*8}-bit SLIP-39 Mnemonics w/ identifier {encrypted_secret.identifier} requiring {group_threshold}"
         f" of {len(grouped_shares)}{' (extendable)' if encrypted_secret.extendable else ''} groups to recover" )
 
-    return [[share.mnemonic() for share in group] for group in grouped_shares]
+    return [
+        [ mnemonic for mnemonic in ( share.mnemonic() for share in group ) for _ in range( count ) ]
+        for group,count in zip( grouped_shares, copies )
+    ]
 
 
 def account(

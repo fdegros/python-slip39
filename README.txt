@@ -553,7 +553,8 @@ Table of Contents
   │                         of groups, rounded up)
   │   -g, --group GROUP     A group name[[<require>/]<size>] (default: <size> = 1,
   │                         <require> = half of <size>, rounded up, eg.
-  │                         'Frens(3/5)' ).
+  │                         'Frens(3/5)'; a group requiring 1 is <size> identical
+  │                         cards, eg. 'Me(1/3)' ).
   │   -f, --format FORMAT   Specify crypto address formats: legacy, segwit,
   │                         bech32; default: BNB:legacy, BTC:bech32, DOGE:legacy,
   │                         ETH:legacy, LTC:bech32, XRP:legacy
