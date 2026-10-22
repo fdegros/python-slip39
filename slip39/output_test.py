@@ -101,3 +101,17 @@ def test_card_mnemonics_fit():
                     cell_pt		= ( e['x2'] - e['x1'] ) / MM_IN * PT_IN
                     assert e['size'] * MONO_WIDTH * MNEM_CHARS <= cell_pt, \
                         f"{card_size} card, {num_mnemonics} words: {e['name']} {e['size']:.2f}pt too big for a {cell_pt:.1f}pt column"
+
+
+def test_wallet_without_logo( tmp_path ):
+    """A cryptocurrency without a logo image (eg. BCH) still gets a Paper Wallet, w/ a blank center."""
+    results			= write_pdfs(
+        names		= [ "Test" ],
+        master_secret	= bytes.fromhex( "ff" * 16 ),
+        cryptocurrency	= [ "BCH", "BTC" ],
+        filepath	= str( tmp_path ),
+        filename	= "wallet-bch",
+        wallet_format	= "quarter",
+    )
+    assert list( results ) == [ "wallet-bch.pdf" ]
+    assert ( tmp_path / "wallet-bch.pdf" ).stat().st_size > 0

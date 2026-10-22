@@ -602,7 +602,10 @@ def write_pdfs(
 
                     images			= os.path.dirname( __file__ )
 
-                    wall_tpl['center']		= os.path.join( images, account.crypto + '.png' )
+                    # Not every cryptocurrency has a logo; if not, leave the center of the wallet blank
+                    logo			= os.path.join( images, account.crypto + '.png' )
+                    if os.path.exists( logo ):
+                        wall_tpl['center']	= logo
 
                     wall_tpl['name']		= f"{name} : {account.crypto}"
 
