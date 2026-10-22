@@ -1,38 +1,37 @@
-Supply a password (or a hint) to produce an encrypted Ethereum JSON
-wallet or Bitcoin, … BIP-38 Paper Wallet.
+A Paper Wallet holds the extended keys of one cryptocurrency account:
+the extended public key (xpub, ypub or zpub), marked WATCH-ONLY, in the
+visible part, and the extended private key (xprv, yprv or zprv), marked
+SPEND, in the part that folds over.
 
 If you import these SLIP-39 (or BIP-39) Mnemonics directly into your
 Trezor hardware wallet – you do /not/ need Paper Wallets: you have
 access to /all/ of the wallets, in every cryptocurrency supported by the
 Trezor.
 
-These are intended to support the importing of /individual/, single
-wallets into standard software wallets (eg. Brave browser, Metamask
-plugins, other software wallets on PCs or mobile devices).  If you need
-some cryptocurrency "walking around" money, use them to create
+These are intended to support the importing of an /individual/ account
+into software wallets that accept an extended key (eg. Electrum,
+Sparrow, and other software wallets on PCs or mobile devices).  If you
+need some cryptocurrency "walking around" money, use them to create
 recoverable "Safe Portable Crypto Accounts" (below).
 
 NOTE: you likely want to change the Custom Derivation Path in "# to
-Derive:" to something other than your main wallet at …/0'/0/0: probably
-a path like `99'/0/0-3', to create 4 Paper Wallets at a different
-"account" (99').
+Derive:" to something other than your main account's addresses at
+…/0'/0/0: probably a path like `99'/0/0-3', to create the Paper Wallet
+for a different "account" (99'), which derives the addresses 0 to 3 of
+that account.
 
 
-1 Password
-══════════
+1 Extended Private Key
+══════════════════════
 
-  If you lose or forget this Paper Wallet password – you cannot import
-  these wallets into compatible software Cryptocurrency wallets!
-  Remember; the Seed can still be recovered by collecting sufficient
-  numbers of Mnemonics (cards), and then new Paper Wallets can be
-  issued.
+  Paper Wallets are *not* password-protected: there is no standard way
+  to encrypt an extended private key.  Anyone who can read the extended
+  private key can spend /every/ address of the account.  Fold the Paper
+  Wallet over, to hide the extended private key, and keep it safe.
 
-
-1.1 Hint
-────────
-
-  A small (<10 character) hint about what (or where) the Paper Wallet
-  Password is.
+  If a Paper Wallet is lost, the Seed can still be recovered by
+  collecting sufficient numbers of Mnemonics (cards), and then new Paper
+  Wallets can be issued.
 
 
 2 Safe Portable Crypto Accounts
@@ -47,25 +46,32 @@ a path like `99'/0/0-3', to create 4 Paper Wallets at a different
 ──────────────────────────
 
   Use the `SLIP-39' App to recover your Seed, select the desired
-  Cryptocurrency (eg. `BTC'), and then enter a Paper Wallet Password,
-  and a derivation path "suffix" into the "# to Derive" field,
-  eg. "/1'/0/0-2".
+  Cryptocurrency (eg. `BTC'), and then enter a derivation path "suffix"
+  into the "# to Derive" field, eg. "/1'/0/0-2".
 
   For example, if you use the BIP-39 recovery "test" Mnemonic "zoo zoo
   zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong", with the above "# to
-  Derive", this would result in 3 paper wallets being produced, at the
-  following standard BTC Bech32 derivation paths:
+  Derive", this would result in 1 Paper Wallet being produced, for the
+  standard BTC Bech32 account at `m/84'/0'/1'', with the extended public
+  key:
+
+  zpub6rD5AGSXPTDMUaSe3aGDqWk4uMTwcrFwytkKuDGmi3ofUkJ4dQxXHZwiXWbHHrELJAor8xGs61F8sbKS2JdQkLZRnu5PGktmr6F32nEBUBb
+
+  That account's 3 addresses are derived at the following standard
+  paths:
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    m/84'/0'/1'/0/0  bc1q8pqnqs573vx3qdp0xp6qdqzvnvy8px24rxh9lp 
-   m/84'/0'/1'/0/0  bc1qwtc58u4mmnxa29u8j07e6lmqpnrs38vefy3y24 
-   m/84'/0'/1'/0/0  bc1qg9s8qzm0lcetfv6umhlm3evtca5zsqv7elqd5s 
+   m/84'/0'/1'/0/1  bc1qwtc58u4mmnxa29u8j07e6lmqpnrs38vefy3y24 
+   m/84'/0'/1'/0/2  bc1qg9s8qzm0lcetfv6umhlm3evtca5zsqv7elqd5s 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  You could load these wallets with funds, write the amount on the
-  front, and fold them over twice (to hide the PRIVATE KEY, while
-  leaving the PUBLIC ADDRESS exposed), and even laminate them to avoid
-  accidental discovery or exposure to moisture.
+  You could load these addresses with funds, write the amount on the
+  front, and fold the Paper Wallet over twice (to hide the EXTENDED
+  PRIVATE KEY, while leaving the EXTENDED PUBLIC KEY exposed), and even
+  laminate it to avoid accidental discovery or exposure to moisture.
+  Anyone who sees the extended public key can see all of the account's
+  addresses and balances, but cannot spend them.
 
   Then, once loaded, they can always be *recovered* by you (if they are
   lost or accidentally destroyed).  Otherwise, the intended recipient
