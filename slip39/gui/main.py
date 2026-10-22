@@ -36,7 +36,7 @@ from ..util		import log_level, log_cfg, ordinal, commas, chunker, hue_shift, rat
 from ..layout		import write_pdfs, printers_available
 from ..defaults		import (
     GROUPS, GROUP_THRESHOLD_RATIO, MNEM_PREFIX, CRYPTO_PATHS, BITS, BITS_BIP39, BITS_DEFAULT,
-    ANONYMOUS, CARD_SIZES, CARD, PAPER_FORMATS, PAPER, WALLET_SIZES, WALLET, MNEM_CONT, THEME,
+    ANONYMOUS, CARD_SIZES, CARD, PAPER_FORMATS, PAPER, WALLET, MNEM_CONT, THEME,
     LAYOUT, LAYOUT_OPTIONS, LAYOUT_BAK, LAYOUT_CRE, LAYOUT_REC, LAYOUT_PRO
 )
 
@@ -409,17 +409,6 @@ def groups_layout(
                                                         key='-WALLET-DERIVE-',  size=shorty,    **I_kwds ),
                         ],
                     ],                                                          visible=LO_CRE, **F_kwds ),
-                ] + [
-                    sg.Column( [
-                        [
-                            sg.Text( 'Paper wallets / page:',                                   **T_kwds )
-                        ],
-                        [
-                            sg.Radio( f"{ws}", "WS",    default=ws == WALLET,
-                                                        key=f"-WALLET-SIZE-{ws}-",              **B_kwds )
-                            for ws in WALLET_SIZES
-                        ],
-                    ],                                                          visible=LO_CRE )
                 ],
             ],                                          key='-WALLET-F-',       visible=LO_CRE and wallet_pwd is not False,
                                                                                               **F_kwds_big ),  # noqa: E126
@@ -1476,7 +1465,7 @@ def app(
             try:
                 card_format	= next( c for c in CARD_SIZES if values[f"-CS-{c}-"] )
                 paper_format	= next( pf for pn,pf in PAPER_FORMATS.items() if values[f"-PF-{pn}-"] )
-                wallet_format	= next( (f for f in WALLET_SIZES if values.get( f"-WALLET-SIZE-{f}-" )), None )
+                wallet_format	= WALLET
                 double_sided	= values['-PF-DOUBLE-']
                 anonymous	= values['-ANONYMOUS-']
                 details		= write_pdfs(

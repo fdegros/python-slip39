@@ -488,8 +488,7 @@ slip39 --help 2>&1                | sed 's/^/: /' # (just for output formatting)
     :   --wallet-hint WALLET_HINT
     :                         Paper wallets password hint
     :   --wallet-format WALLET_FORMAT
-    :                         Paper wallet size; half, third, quarter or
-    :                         '(<h>,<w>),<margin>' (default: quarter)
+    :                         Paper wallet size; quarter (default: quarter)
     :   -s SECRET, --secret SECRET
     :                         Use the supplied BIP-39 Mnemonic or 128-, 256- or
     :                         512-bit hex value as the secret seed; '-' reads it
@@ -1229,7 +1228,7 @@ pdf_binary = pdf.output()
     | text            | If True, outputs SLIP-39 phrases to stdout                                                            |
     | wallet_pwd      | If password supplied, produces encrypted BIP-38 or JSON Paper Wallets to PDF (preferred vs. json_pwd) |
     | wallet_pwd_hint | An optional passphrase hint, printed on paper wallet                                                  |
-    | wallet_format   | Paper wallet size, (eg. "third"); the default is 1/3 letter size                                      |
+    | wallet_format   | Paper wallet size, (eg. "quarter"); the default is 1/4 letter size                                    |
     | wallet_paper    | Other paper format (default: Letter)                                                                  |
     | cover_page      | A bool indicating whether to produce a cover page (default: True)                                     |
     #+LATEX: }

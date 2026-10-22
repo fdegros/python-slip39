@@ -78,7 +78,7 @@ def main( argv=None ):
                      default=None,
                      help="Save an encrypted JSON wallet for each Ethereum address w/ this password, '-' reads it from stdin (default: None)" )
     ap.add_argument( '--wallet-format',
-                     default=WALLET,
+                     default=WALLET, choices=list( WALLET_SIZES ),
                      help=f"Paper wallet size; {', '.join(WALLET_SIZES.keys())} (default: {WALLET})" )
     ap.add_argument( '-s', '--secret',
                      default=None,
