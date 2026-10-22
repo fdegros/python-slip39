@@ -30,7 +30,7 @@ from itertools		import islice
 
 import FreeSimpleGUI as sg
 
-from ..api		import Account, create, group_parser, random_secret, cryptopaths_parser, paper_wallet_available, stretch_seed_entropy
+from ..api		import Account, create, group_parser, random_secret, cryptopaths_parser, stretch_seed_entropy
 from ..recovery		import recover, recover_bip39, produce_bip39, scan_entropy, display_entropy
 from ..util		import log_level, log_cfg, ordinal, commas, chunker, hue_shift, rate_dB, entropy_rating_dB, timing, avg, user_name_full
 from ..layout		import write_pdfs, printers_available
@@ -158,8 +158,6 @@ def groups_layout(
     groups,
     passphrase		= None,
     cryptocurrency	= None,
-    wallet_pwd		= None,			# If False, disable capability
-    wallet_pwd_hint	= None,
     wallet_derive	= None,
     controls		= None,			# Default is simplest controls LAYOUT_OPTIONS[0];
     printers		= None,			# Any printers available at the present time
@@ -210,9 +208,6 @@ def groups_layout(
             ]
         ],                                                                                     **F_kwds ),
     ]
-
-    if wallet_pwd is False:
-        log.warning( "Disabling Paper Wallets capability: API unavailable" )
 
     # Select Controls complexity.
     LO				= LAYOUT_OPTIONS[controls] if controls is not None else LAYOUT
@@ -394,15 +389,6 @@ def groups_layout(
                         )
                     ],                                                          visible=LO_CRE )
                 ] + [
-                    sg.Frame( 'Paper Wallet Password/Hint (empty, if no Paper Wallets desired)', [
-                        [
-                            sg.Input( default_text=wallet_pwd or '',
-                                                        key='-WALLET-PASS-',    size=inputs,    **I_kwds ),
-                            sg.Text( "Hint: ",                                                  **T_kwds ),
-                            sg.Input( default_text=wallet_pwd_hint or '',
-                                                        key='-WALLET-HINT-',    size=shorty,    **I_kwds ),
-                        ],
-                    ],                                                          visible=LO_CRE, **F_kwds ),
                     sg.Frame( '# to Derive:', [
                         [
                             sg.Input( default_text=wallet_derive or "0'/0/0-3",
@@ -410,7 +396,7 @@ def groups_layout(
                         ],
                     ],                                                          visible=LO_CRE, **F_kwds ),
                 ],
-            ],                                          key='-WALLET-F-',       visible=LO_CRE and wallet_pwd is not False,
+            ],                                          key='-WALLET-F-',       visible=LO_CRE,
                                                                                               **F_kwds_big ),  # noqa: E126
         ],
     ] + [
@@ -1003,9 +989,6 @@ def app(
         except Exception as exc:
             logging.exception( f"Failed to discover user full name: {exc}" )
 
-    # If we cannot support the output of Paper Wallets, disable
-    wallet_pwd			= None if paper_wallet_available() else False
-    wallet_pwd_hint		= None
     wallet_derive		= None  # A derivation path "edit", if any
     window			= None
     status			= None
@@ -1053,8 +1036,6 @@ def app(
                 groups		= groups,
                 cryptocurrency	= cryptocurrency,
                 passphrase	= passphrase.decode( 'UTF-8' ) if passphrase else None,
-                wallet_pwd	= wallet_pwd,
-                wallet_pwd_hint	= wallet_pwd_hint,
                 wallet_derive	= wallet_derive,
                 controls	= controls,
                 printers	= printers,
@@ -1432,19 +1413,6 @@ def app(
         # We have a complete SLIP-39 Mnemonic set.  If we get here, no failure status has been
         # detected, and SLIP39 mnemonic and account details { "name": <details> } have been created;
         # we can now save the PDFs; converted details is now { "<filename>": <details> })
-        if wallet_pwd is not False:
-            # And, if Paper Wallets haven't been disabled completely, remember our password/hint.
-            # If we're supplied a wallet password "hint", we allow even the empty wallet password.
-            # None/False disables, empty is OK.
-            if values['-WALLET-PASS-'] or values['-WALLET-HINT-']:
-                window['-WALLET-DERIVE-'].update( visible=True )
-                wallet_pwd	= values['-WALLET-PASS-']
-                wallet_pwd_hint	= values['-WALLET-HINT-']
-            else:
-                wallet_pwd	= None
-                wallet_pwd_hint	= None
-                window['-WALLET-DERIVE-'].update( visible=False )
-
         if event in ('-SAVE-', '-PRINT-'):
             # A -SAVE- target directory has been selected; use it, if possible.  This is where any
             # output will be written.  It should usually be a removable volume, but we do not check.
@@ -1476,7 +1444,7 @@ def app(
                     paper_format	= paper_format,
                     cryptocurrency	= cryptocurrency,
                     edit		= edit,
-                    wallet_format	= wallet_format if wallet_pwd is not None and wallet_pwd is not False else None,
+                    wallet_format	= wallet_format,
                     filepath		= filepath,
                     printer		= printer,
                     watermark		= watermark,
