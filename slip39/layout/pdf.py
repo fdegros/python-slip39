@@ -592,14 +592,9 @@ def write_pdfs(
             # Place each Paper Wallet adding pages as necessary (we already have the first fresh page).
             wall_n		= 0
             page_n		= 0
+            printed		= set()  # The (crypto, path) of each account already printed on a wallet
             for account_group in accounts:
                 for account in account_group:
-                    p,(offsetx,offsety) = page_xy( wall_n )
-                    if p != page_n:
-                        pdf.add_page(orientation='portrait', format=wallet_paper)
-                        if double_sided is None or double_sided:
-                            pdf.add_page( orientation='P', format=wallet_paper )
-                        page_n	= p
                     try:
                         # The wallet holds the account's extended keys, which derive every address of the account
                         acct			= account.account_level()
@@ -607,6 +602,16 @@ def write_pdfs(
                     except NotImplementedError as exc:
                         log.error( f"Cannot print wallet for {account.crypto}: {exc}" )
                         continue
+                    if ( acct.crypto, acct.path ) in printed:
+                        continue  # eg. several addresses of the same account
+                    printed.add( ( acct.crypto, acct.path ))
+
+                    p,(offsetx,offsety) = page_xy( wall_n )
+                    if p != page_n:
+                        pdf.add_page(orientation='portrait', format=wallet_paper)
+                        if double_sided is None or double_sided:
+                            pdf.add_page( orientation='P', format=wallet_paper )
+                        page_n	= p
 
                     wall_n     += 1
 
