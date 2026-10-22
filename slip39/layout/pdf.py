@@ -637,10 +637,7 @@ def write_pdfs(
                     # If not enough lines, will throw Exception, as it should!  We don't want to
                     # emit a Paper Wallet without the entire encrypted private key present.  This is
                     # primarily an issue for Ethereum encrypted JSON wallets, which are very large.
-                    # As the vertical aspect ratio of the Paper Wallet increases (eg. for half- or
-                    # third-page vs. quarter-page Paper Wallets), the line length increases, but the
-                    # number of lines available decreases.  Estimate the number of characters on
-                    # each line.
+                    # Estimate the number of characters on each line.
                     line_elm			= next( e for e in wall_elements if e['name'] == 'private-0' )
                     line_points			= ( line_elm['x2'] - line_elm['x1'] ) / MM_IN * PT_IN
                     line_fontsize		= line_elm['size']
