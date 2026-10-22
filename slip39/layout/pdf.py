@@ -573,6 +573,8 @@ def write_pdfs(
             if log.isEnabledFor( logging.DEBUG ):
                 log.debug( f"Wallet elements: {json.dumps( wall_elements, indent=4)}" )
             wall_tpl		= fpdf.FlexTemplate( pdf, wall_elements )
+            wall_name		= next( e for e in wall_tpl.elements if e['name'] == 'name' )
+            wall_name_size	= wall_name['size']  # The wallet title is at most this big
 
             # Place each Paper Wallet adding pages as necessary (we already have the first fresh page).
             wall_n		= 0
@@ -607,7 +609,14 @@ def write_pdfs(
                     if os.path.exists( logo ):
                         wall_tpl['center']	= logo
 
-                    wall_tpl['name']		= f"{name} : {account.crypto}"
+                    title = f"{account.crypto} Wallet"
+                    if name: title = f"{title} for {name}"
+                    wall_tpl['name'] = title
+                    # Shrink a long title to fit, so it doesn't run over the fold into the private key
+                    with pdf.local_context():
+                        pdf.set_font( wall_name['font'], '', 1 )
+                        title_width	= pdf.get_string_width( title )  # mm, at 1 point
+                    wall_name['size']	= min( wall_name_size, ( wall_name['x2'] - wall_name['x1'] ) / title_width * .95 )
 
                     public_qr	= qrcode.QRCode(
                         version		= None,
