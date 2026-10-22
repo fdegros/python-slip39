@@ -609,7 +609,9 @@ def write_pdfs(
                     if os.path.exists( logo ):
                         wall_tpl['center']	= logo
 
-                    title = f"{account.crypto} Wallet"
+                    # eg. "Bitcoin (BTC) Wallet", or if the name is just the symbol (eg. EOS), "EOS Wallet"
+                    crypto_name		= account.name.replace( '-', ' ' )
+                    title = f"{crypto_name} ({account.crypto}) Wallet" if crypto_name.upper() != account.crypto else f"{account.crypto} Wallet"
                     if name: title = f"{title} for {name}"
                     wall_tpl['name'] = title
                     # Shrink a long title to fit, so it doesn't run over the fold into the private key
