@@ -446,10 +446,10 @@ def layout_wallet(
 
     # Wallet name, amount
     public.add_region_proportional(
-        Image( 'name-bg',	x1=public_x1, y1=0/16, x2=15/16, y2=1/16, priority=prio_contrast )
+        Image( 'name-bg',	x1=public_x1, y1=0/16, x2=15/16, y2=2/16, priority=prio_contrast )
     )
     public.add_region_proportional(
-        Text( 'name',		x1=public_x1, y1=0/16, x2=15/16, y2=1/16 )
+        Text( 'name',		x1=public_x1, y1=0/16, x2=15/16, y2=2/16 )
     )
 
     public.add_region_proportional(
