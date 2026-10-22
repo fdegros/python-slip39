@@ -45,7 +45,7 @@ from ..defaults		import (
     FILENAME_FORMAT,
 )
 from .components	import (
-    Coordinate, Region, Box, Image, Text,
+    Coordinate, Region, Box, Text,
     page_dimensions, layout_components, layout_card, layout_wallet,
 )
 from .printer		import (
@@ -292,7 +292,6 @@ def produce_pdf(
         if log.isEnabledFor( logging.DEBUG ):
             log.debug( f"Cover elements: {json.dumps( cover_elements, indent=4)}" )
         tpl_cover		= fpdf.FlexTemplate( pdf, cover_elements )
-        images			= os.path.dirname( __file__ )
 
         slip39_mnems		= []
         slip39_group		= []

@@ -332,8 +332,6 @@ def layout_wallet(
       -1     : Contrast-enhancing partially transparent images
        0     : Text, etc. (the default)
     """
-    prio_backing		= -3
-    prio_normal			= -2
     prio_contrast		= -1
 
     wallet			= Box( 'wallet', 0, 0, wallet_size.x, wallet_size.y )
