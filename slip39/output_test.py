@@ -107,7 +107,11 @@ def test_cards( tmp_path, rendered_cards ):
     cards			= [ t for t in rendered_cards if 'card-title' in t ]
     fronts			= [ t for t in cards if 'card-requires' in t ]  # the backs only have a title (and QR code)
     assert fronts
-    assert all( "Alice" in t['card-title'] for t in cards )
+    assert { t['card-title'] for t in cards } == {
+        "SLIP39 First for Alice", "SLIP39 Second for Alice",
+        "SLIP39 Fam 1 for Alice", "SLIP39 Fam 2 for Alice", "SLIP39 Fam 3 for Alice", "SLIP39 Fam 4 for Alice",
+        *( f"SLIP39 Frens {n} for Alice" for n in range( 1, 7 )),
+    }
     for t in fronts:
         assert "Recover w/ 2 of 4" in t['card-requires']
         assert 'card-crypto1' in t and 'card-qr1' in t
