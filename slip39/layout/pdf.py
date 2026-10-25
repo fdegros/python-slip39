@@ -359,7 +359,11 @@ def produce_pdf(
             # cryptocurrency addresses and QR codes.
             title		= g_name
             if not anonymous:
-                title		= f"SLIP39 {g_name}({mn_n+1}/{len(g_mnems)}) for: {name}"
+                title		= f"SLIP39 {g_name}"
+                if len( g_mnems ) > 1:
+                    title		= f"{title} {mn_n+1}"
+                if name:
+                    title		= f"{title} for {name}"
                 f['card-requires'] = requires
                 f['card-crypto1'] = f"{accounts[0][0].crypto} {accounts[0][0].path}: {accounts[0][0].address}"
                 f['card-qr1']	= io.BytesIO( qr_acct[0].to_string(encoding='unicode').encode('UTF-8'))  # get_image()
